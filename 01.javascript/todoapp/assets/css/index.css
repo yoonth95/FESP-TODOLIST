@@ -1,11 +1,70 @@
 /* // 전체 css */
-@import "./global.css";
+@import './global.css';
 
 #contents {
   width: 1024px;
 }
 
 /* regist */
+
+#contents {
+  width: 1024px;
+}
+
+#todo-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100;
+  background-color: #fff;
+}
+
+.title-box {
+  display: flex;
+  gap: 10px;
+}
+
+.label-title {
+}
+
+#input-title {
+}
+
+.content-box {
+}
+
+.label-content {
+}
+
+#input-content {
+}
+
+.deadline-box {
+}
+
+.label-deadline {
+}
+
+#input-deadline {
+}
+
+.important-box {
+}
+
+.label-important {
+}
+
+#input-important {
+}
+
+.active-box {
+}
+
+.submit-button {
+}
+
+.cancel-button {
+}
 
 /* list */
 .todo-container {
