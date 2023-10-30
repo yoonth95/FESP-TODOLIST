@@ -17,9 +17,14 @@ const TodoList = async function () {
     const ul = document.createElement("ul");
     ul.setAttribute("class", "todolist");
     response.data?.items.forEach((item) => {
+      console.log(item);
       /* todoItem 초기렌더링 */
       const li = document.createElement("li");
       li.setAttribute("class", "todolist__item");
+
+      /* todoItem 중요버튼 */
+      const importantButton = document.createElement("button");
+      importantButton.setAttribute("id", "importantButton");
 
       /* todoItem 삭제 버튼 */
       const deleteButton = document.createElement("a");
@@ -41,13 +46,14 @@ const TodoList = async function () {
       todoInfoLink.addEventListener("click", async function (event) {
         // 브라우저의 기본 동작 취소(<a> 태그 동작 안하도록)
         event.preventDefault();
-        const infoPage = await TodoInfo({ _id: item._id });
+        const infoPage = await TodoInfo({_id: item._id});
         document.querySelector("#page").replaceWith(infoPage);
       });
 
       todoInfoLink.appendChild(title);
       li.appendChild(checkbox);
       li.appendChild(todoInfoLink);
+      li.appendChild(importantButton);
       li.appendChild(deleteButton);
       ul.appendChild(li);
     });
