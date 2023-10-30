@@ -14,6 +14,7 @@ const TodoList = async function () {
   let response;
   try {
     response = await axios("http://localhost:33088/api/todolist");
+    console.log(response);
 
     const ul = document.createElement("ul");
     ul.setAttribute("class", "todolist");
@@ -46,7 +47,7 @@ const TodoList = async function () {
       todoInfoLink.addEventListener("click", async function (event) {
         // 브라우저의 기본 동작 취소(<a> 태그 동작 안하도록)
         event.preventDefault();
-        const infoPage = await TodoInfo({ _id: item._id });
+        const infoPage = await TodoInfo({_id: item._id});
         document.querySelector("#page").replaceWith(infoPage);
       });
 

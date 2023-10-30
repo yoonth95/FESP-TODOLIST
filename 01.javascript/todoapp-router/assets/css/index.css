@@ -3,11 +3,26 @@
 
 #contents {
   width: 1024px;
+  position: relative;
 }
 
 /* regist */
 
 /* list */
+
+.registButton {
+  position: absolute;
+  right: 12px;
+  top: -80px;
+  background: var(--button-color);
+  color: #fff;
+  font-weight: bold;
+  padding: 12px;
+  border-radius: 12px;
+  border: none;
+  font-size: 24px;
+}
+
 .todo-container {
   width: 1024px;
   max-height: 315px;
@@ -57,7 +72,7 @@
   top: -5px;
 }
 
-#importantButton {
+.todolist__item--important-button {
   position: absolute;
   right: 24px;
   border: none;
@@ -66,7 +81,11 @@
   background: url("./../img/star.svg") no-repeat;
 }
 
-#deleteButton {
+.fill {
+  background: url("./../img/star--fill.svg") no-repeat;
+}
+
+.todolist__item--delete-button {
   display: block;
   position: absolute;
   right: 0;

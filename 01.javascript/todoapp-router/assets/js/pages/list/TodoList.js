@@ -1,7 +1,8 @@
 // 할일 목록
 import Header from "../../layout/Header.js";
 import Footer from "../../layout/Footer.js";
-import { linkTo } from "../../Router.js";
+import {linkTo} from "../../Router.js";
+import createCheckbox from "./checkbox.js";
 
 const TodoList = async function () {
   const page = document.createElement("div");
@@ -35,6 +36,11 @@ const TodoList = async function () {
   deleteAll.setAttribute("name", "deleteAll");
   deleteAll.innerHTML = "전체삭제";
 
+  /* 등록 버튼 */
+  const registButton = document.createElement("button");
+  registButton.setAttribute("class", "registButton");
+  const btnTitle = document.createTextNode("등록");
+
   /* UI 렌더링 */
   checkList.appendChild(checkAll);
   checkList.appendChild(checkAllLabel);
@@ -45,6 +51,7 @@ const TodoList = async function () {
   try {
     response = await axios("http://localhost:33088/api/todolist");
 
+    /* 중요 아이템 리스트 컨테이너 */
     const importantList = document.createElement("ul");
     importantList.setAttribute("class", "important-list");
 
@@ -57,12 +64,15 @@ const TodoList = async function () {
 
       /* todoItem 중요버튼 */
       const importantButton = document.createElement("button");
-      importantButton.setAttribute("id", "importantButton");
+      importantButton.setAttribute("class", "todolist__item--important-button");
+      importantButton.addEventListener("click", () => {
+        importantButton.classList.toggle("fill");
+      });
 
       /* todoItem 삭제 버튼 */
       const deleteButton = document.createElement("a");
-      deleteButton.setAttribute("id", "deleteButton");
-      deleteButton.setAttribute("href", `_id=${item._id}`);
+      deleteButton.setAttribute("class", "todolist__item--delete-button");
+      deleteButton.setAttribute("href", `?_id=${item._id}`);
 
       /* todoItem 상세보기 모달링크 */
       const todoInfoLink = document.createElement("a");
@@ -74,8 +84,7 @@ const TodoList = async function () {
       const checkbox = document.createElement("input");
       checkbox.setAttribute("type", "checkbox");
       checkbox.setAttribute("class", "todolist__item--checkbox");
-      // checkbox.setAttribute("name", `${item.name}`);
-
+      checkbox.setAttribute("name", `${item.name}`);
       todoInfoLink.addEventListener("click", function (event) {
         // 브라우저의 기본 동작 취소(<a> 태그 동작 안하도록)
         event.preventDefault();
@@ -89,16 +98,14 @@ const TodoList = async function () {
       li.appendChild(deleteButton);
       ul.appendChild(li);
     });
+
+    registButton.appendChild(btnTitle);
+    contents.appendChild(registButton);
     contents.appendChild(importantList);
     contents.appendChild(checkList);
     contents.appendChild(ul);
 
-    const btnRegist = document.createElement("button");
-    const btnTitle = document.createTextNode("등록");
-    btnRegist.appendChild(btnTitle);
-    contents.appendChild(btnRegist);
-
-    btnRegist.addEventListener("click", () => {
+    registButton.addEventListener("click", () => {
       linkTo("regist");
     });
   } catch (err) {
