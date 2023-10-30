@@ -45,6 +45,9 @@ const TodoList = async function () {
   try {
     response = await axios("http://localhost:33088/api/todolist");
 
+    const importantList = document.createElement("ul");
+    importantList.setAttribute("class", "important-list");
+
     const ul = document.createElement("ul");
     ul.setAttribute("class", "todolist");
     response.data?.items.forEach((item) => {
@@ -86,6 +89,7 @@ const TodoList = async function () {
       li.appendChild(deleteButton);
       ul.appendChild(li);
     });
+    contents.appendChild(importantList);
     contents.appendChild(checkList);
     contents.appendChild(ul);
 
