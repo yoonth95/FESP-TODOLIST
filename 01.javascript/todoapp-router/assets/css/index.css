@@ -13,8 +13,33 @@
   max-height: 315px;
   background-color: #fff;
   border-radius: 10px;
-  padding: 14px;
+  padding: 32px;
   font-weight: bold;
+}
+
+.todo-container__check-list {
+  position: relative;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+}
+
+.checkAllLabel {
+  position: absolute;
+  left: 31px;
+}
+
+.todo-container__check-list button {
+  background-color: transparent;
+  border: none;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+}
+
+.completeAll {
+  position: absolute;
+  right: 90px;
 }
 
 .todolist__item {
@@ -23,7 +48,7 @@
   align-items: center;
   flex-flow: row nowrap;
   justify-content: space-between;
-  margin: 24px;
+  margin: 24px 0;
 }
 
 .todolist__item--todo-info-link {

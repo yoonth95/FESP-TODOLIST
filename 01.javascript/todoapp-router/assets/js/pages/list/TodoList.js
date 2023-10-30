@@ -10,6 +10,37 @@ const TodoList = async function () {
   const contents = document.createElement("div");
   contents.setAttribute("id", "contents");
   contents.setAttribute("class", "todo-container");
+
+  const checkList = document.createElement("div");
+  checkList.setAttribute("class", "todo-container__check-list");
+
+  const checkAll = document.createElement("input");
+  checkAll.setAttribute("type", "checkbox");
+  checkAll.setAttribute("id", "checkAll");
+
+  /* 전체선택 레이블 */
+  const checkAllLabel = document.createElement("label");
+  checkAllLabel.setAttribute("for", "checkAll");
+  checkAllLabel.setAttribute("class", "checkAllLabel");
+  checkAllLabel.innerHTML = "전체선택";
+
+  // 전체완료 버튼텍스트
+  const completedAll = document.createElement("button");
+  completedAll.setAttribute("class", "completeAll");
+  completedAll.innerHTML = "전체완료";
+
+  // 전체삭제 버튼텍스트
+  const deleteAll = document.createElement("button");
+  deleteAll.setAttribute("class", "deleteAll");
+  deleteAll.setAttribute("name", "deleteAll");
+  deleteAll.innerHTML = "전체삭제";
+
+  /* UI 렌더링 */
+  checkList.appendChild(checkAll);
+  checkList.appendChild(checkAllLabel);
+  checkList.appendChild(completedAll);
+  checkList.appendChild(deleteAll);
+
   let response;
   try {
     response = await axios("http://localhost:33088/api/todolist");
@@ -55,6 +86,7 @@ const TodoList = async function () {
       li.appendChild(deleteButton);
       ul.appendChild(li);
     });
+    contents.appendChild(checkList);
     contents.appendChild(ul);
 
     const btnRegist = document.createElement("button");
