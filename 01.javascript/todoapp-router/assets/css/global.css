@@ -49,6 +49,17 @@ a {
   color: inherit;
 }
 
+header {
+  margin-bottom: 120px;
+}
+
+footer {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 30px;
+}
+
 button {
   cursor: pointer;
 }
