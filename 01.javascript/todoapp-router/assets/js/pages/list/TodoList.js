@@ -1,7 +1,7 @@
 // 할일 목록
 import Header from "../../layout/Header.js";
 import Footer from "../../layout/Footer.js";
-import {linkTo} from "../../Router.js";
+import { linkTo } from "../../Router.js";
 import createCheckbox from "./checkbox.js";
 
 const TodoList = async function () {
@@ -14,16 +14,6 @@ const TodoList = async function () {
 
   const checkList = document.createElement("div");
   checkList.setAttribute("class", "todo-container__check-list");
-
-  const checkAll = document.createElement("input");
-  checkAll.setAttribute("type", "checkbox");
-  checkAll.setAttribute("id", "checkAll");
-
-  /* 전체선택 레이블 */
-  const checkAllLabel = document.createElement("label");
-  checkAllLabel.setAttribute("for", "checkAll");
-  checkAllLabel.setAttribute("class", "checkAllLabel");
-  checkAllLabel.innerHTML = "전체선택";
 
   // 전체완료 버튼텍스트
   const completedAll = document.createElement("button");
@@ -42,8 +32,6 @@ const TodoList = async function () {
   const btnTitle = document.createTextNode("등록");
 
   /* UI 렌더링 */
-  checkList.appendChild(checkAll);
-  checkList.appendChild(checkAllLabel);
   checkList.appendChild(completedAll);
   checkList.appendChild(deleteAll);
 

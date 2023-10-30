@@ -36,12 +36,8 @@
   position: relative;
   display: flex;
   flex-flow: row nowrap;
-  justify-content: space-between;
-}
-
-.checkAllLabel {
-  position: absolute;
-  left: 31px;
+  justify-content: flex-end;
+  gap: 16px;
 }
 
 .todo-container__check-list button {
@@ -50,11 +46,6 @@
   font-family: inherit;
   font-size: inherit;
   font-weight: inherit;
-}
-
-.completeAll {
-  position: absolute;
-  right: 90px;
 }
 
 .todolist__item {
