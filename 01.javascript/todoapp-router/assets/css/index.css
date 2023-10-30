@@ -25,11 +25,16 @@
 
 .todo-container {
   width: 1024px;
-  max-height: 315px;
+  min-height: 315px;
+  height: auto;
   background-color: #fff;
   border-radius: 10px;
   padding: 32px;
   font-weight: bold;
+}
+
+.important-list {
+  border-bottom: 2px solid #000;
 }
 
 .todo-container__check-list {
@@ -57,19 +62,24 @@
   margin: 24px 0;
 }
 
-.todolist__item--todo-info-link {
-  position: absolute;
-  padding-left: 31px;
-  top: -5px;
-}
-
 .todolist__item--important-button {
-  position: absolute;
-  right: 24px;
+  position: relative;
+  bottom: -2px;
   border: none;
   width: 24px;
   height: 24px;
   background: url("./../img/star.svg") no-repeat;
+}
+
+.todolist__item--checkbox {
+  position: absolute;
+  left: 32px;
+}
+
+.todolist__item--todo-info-link {
+  position: absolute;
+  left: 64px;
+  top: -1px;
 }
 
 .fill {
