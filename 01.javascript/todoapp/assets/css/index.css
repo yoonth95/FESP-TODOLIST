@@ -3,6 +3,18 @@
 
 /* regist */
 
+#contents {
+  width: 1024px;
+}
+
+#todo-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100;
+  background-color: #fff;
+}
+
 /* list */
 
 /* info */
