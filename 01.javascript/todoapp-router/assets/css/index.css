@@ -5,6 +5,7 @@
 /*전체 컨테이너*/
 #contents {
   width: 1024px;
+  position: relative;
 }
 /*폼 양식 컨테이너*/
 #todo-form {
@@ -120,6 +121,93 @@ span.check-true::before {
 }
 
 /* list */
+
+.registButton {
+  position: absolute;
+  right: 12px;
+  top: -80px;
+  background: var(--button-color);
+  color: #fff;
+  font-weight: bold;
+  padding: 12px;
+  border-radius: 12px;
+  border: none;
+  font-size: 24px;
+}
+
+.todo-container {
+  width: 1024px;
+  min-height: 315px;
+  height: auto;
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 32px;
+  font-weight: bold;
+}
+
+.important-list {
+  border-bottom: 2px solid #000;
+}
+
+.todo-container__check-list {
+  position: relative;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-end;
+  gap: 16px;
+}
+
+.todo-container__check-list button {
+  background-color: transparent;
+  border: none;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+}
+
+.todolist__item {
+  display: flex;
+  position: relative;
+  align-items: center;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  margin: 24px 0;
+}
+
+.todolist__item--important-button {
+  position: relative;
+  bottom: -2px;
+  border: none;
+  width: 24px;
+  height: 24px;
+  background: url("./../img/star.svg") no-repeat;
+}
+
+.todolist__item--checkbox {
+  position: absolute;
+  left: 32px;
+}
+
+.todolist__item--todo-info-link {
+  position: absolute;
+  left: 64px;
+  top: -1px;
+}
+
+.fill {
+  background: url("./../img/star--fill.svg") no-repeat;
+}
+
+.todolist__item--delete-button {
+  display: block;
+  position: absolute;
+  right: 0;
+  bottom: -5px;
+  background: url("./../img/garbage.svg") no-repeat;
+  width: 21px;
+  height: 21px;
+  object-fit: cover;
+}
 
 /* info */
 
