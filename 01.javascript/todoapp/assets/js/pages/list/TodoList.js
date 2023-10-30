@@ -22,6 +22,7 @@ const TodoList = async function () {
       /* todoItem 초기렌더링 */
       const li = document.createElement("li");
       li.setAttribute("class", "todolist__item");
+      li.setAttribute("checked", true);
 
       /* todoItem 중요버튼 */
       const importantButton = document.createElement("button");
