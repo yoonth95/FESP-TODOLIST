@@ -4,7 +4,22 @@
 /* regist */
 
 /* list */
+#content {
+  width: 393px;
+  max-height: 315px;
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 14px;
+  font-weight: bold;
+}
 
+.todolist__item--todo-info-link {
+  padding-left: 21px;
+}
+
+.todolist--item {
+  margin: 12px;
+}
 /* info */
 
 /* update */
