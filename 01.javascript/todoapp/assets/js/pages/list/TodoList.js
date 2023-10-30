@@ -18,7 +18,6 @@ const TodoList = async function () {
     const ul = document.createElement("ul");
     ul.setAttribute("class", "todolist");
     response.data?.items.forEach((item) => {
-      console.log(item);
       /* todoItem 초기렌더링 */
       const li = document.createElement("li");
       li.setAttribute("class", "todolist__item");

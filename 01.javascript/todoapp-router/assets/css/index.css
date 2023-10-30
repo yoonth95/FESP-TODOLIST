@@ -1,0 +1,81 @@
+/* // 전체 css */
+@import "./global.css";
+
+#contents {
+  width: 1024px;
+}
+
+/* regist */
+
+/* list */
+.todo-container {
+  width: 1024px;
+  max-height: 315px;
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 32px;
+  font-weight: bold;
+}
+
+.todo-container__check-list {
+  position: relative;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+}
+
+.checkAllLabel {
+  position: absolute;
+  left: 31px;
+}
+
+.todo-container__check-list button {
+  background-color: transparent;
+  border: none;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+}
+
+.completeAll {
+  position: absolute;
+  right: 90px;
+}
+
+.todolist__item {
+  display: flex;
+  position: relative;
+  align-items: center;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  margin: 24px 0;
+}
+
+.todolist__item--todo-info-link {
+  position: absolute;
+  padding-left: 31px;
+  top: -5px;
+}
+
+#importantButton {
+  position: absolute;
+  right: 24px;
+  border: none;
+  width: 24px;
+  height: 24px;
+  background: url("./../img/star.svg") no-repeat;
+}
+
+#deleteButton {
+  display: block;
+  position: absolute;
+  right: 0;
+  bottom: -5px;
+  background: url("./../img/garbage.svg") no-repeat;
+  width: 21px;
+  height: 21px;
+  object-fit: cover;
+}
+/* info */
+
+/* update */
