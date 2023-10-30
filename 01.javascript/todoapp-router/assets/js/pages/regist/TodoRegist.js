@@ -51,7 +51,7 @@ const TodoRegist = function () {
   inputTitle.classList.add("register-input");
   inputTitle.type = "text";
   inputTitle.required;
-  inputTitle.placeholder = "할일 제목을 입력하세요";
+  inputTitle.placeholder = "할일의 제목을 입력하세요";
 
   const textareaContent = document.createElement("textarea");
   textareaContent.setAttribute("id", "textarea-content");
