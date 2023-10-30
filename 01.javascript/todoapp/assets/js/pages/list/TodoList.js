@@ -8,8 +8,9 @@ const TodoList = async function () {
   const page = document.createElement("div");
   page.setAttribute("id", "page");
 
-  const content = document.createElement("div");
-  content.setAttribute("id", "content");
+  const contents = document.createElement("div");
+  contents.setAttribute("id", "content");
+  contents.setAttribute("class", "todo-container");
   let response;
   try {
     response = await axios("http://localhost:33088/api/todolist");
@@ -46,7 +47,7 @@ const TodoList = async function () {
       todoInfoLink.addEventListener("click", async function (event) {
         // 브라우저의 기본 동작 취소(<a> 태그 동작 안하도록)
         event.preventDefault();
-        const infoPage = await TodoInfo({_id: item._id});
+        const infoPage = await TodoInfo({ _id: item._id });
         document.querySelector("#page").replaceWith(infoPage);
       });
 
@@ -57,12 +58,12 @@ const TodoList = async function () {
       li.appendChild(deleteButton);
       ul.appendChild(li);
     });
-    content.appendChild(ul);
+    contents.appendChild(ul);
 
     const btnRegist = document.createElement("button");
     const btnTitle = document.createTextNode("등록");
     btnRegist.appendChild(btnTitle);
-    content.appendChild(btnRegist);
+    contents.appendChild(btnRegist);
 
     btnRegist.addEventListener("click", () => {
       const registPage = TodoRegist();
@@ -70,11 +71,11 @@ const TodoList = async function () {
     });
   } catch (err) {
     const error = document.createTextNode("일시적인 오류 발생");
-    content.appendChild(error);
+    contents.appendChild(error);
   }
 
   page.appendChild(Header("TODO App 목록 조회"));
-  page.appendChild(content);
+  page.appendChild(contents);
   page.appendChild(Footer());
   return page;
 };

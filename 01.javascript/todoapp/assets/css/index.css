@@ -1,11 +1,15 @@
 /* // 전체 css */
 @import "./global.css";
 
+#contents {
+  width: 1024px;
+}
+
 /* regist */
 
 /* list */
-#content {
-  width: 393px;
+.todo-container {
+  width: 1024px;
   max-height: 315px;
   background-color: #fff;
   border-radius: 10px;
@@ -46,7 +50,6 @@
   width: 21px;
   height: 21px;
   object-fit: cover;
-  height: 24px;
 }
 /* info */
 
