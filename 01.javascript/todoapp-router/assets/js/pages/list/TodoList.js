@@ -40,6 +40,25 @@ const TodoList = async function () {
   const filterImportant = Button("filter-list__item", "button", "중요");
   const filterIncomplete = Button("filter-list__item", "button", "미완료");
   const filterComplete = Button("filter-list__item", "button", "완료");
+  // 전체 데이터
+  const dataResult = await axios(`${BASE_URL}/todolist`);
+
+  const filterList = document.createElement("div");
+  filterList.setAttribute("class", "filter-list");
+  const filterAll = Button("filter-list__item", "button", "전체보기");
+
+  const filterImportant = Button(
+    "filter-list__item",
+    "button",
+    "중요",
+    handleImportantFilter
+  );
+
+  // 미완료 아이템 데이터 필터링
+  const filterIncomplete = Button("filter-list__item", "button", "미완료");
+
+  /* 완료 아이템 데이터 필터링 */
+  const filterComplete = Button("filter-list__item", "button", "완료");
 
   /* UI 렌더링 */
   filterList.append(
@@ -86,13 +105,34 @@ const TodoList = async function () {
     listAll.appendChild(importantList);
     listAll.appendChild(ul);
     contents.appendChild(listAll);
+    contents.appendChild(importantList);
+    contents.appendChild(ul);
+
+    // 중요보기 필터
+    async function handleImportantFilter() {
+      const responseData = response?.data.items;
+
+      const importantResult = responseData.filter((item) => item.important);
+
+      ul.appendChild(TodoListItem(importantResult));
+    }
 
     /* 전체완료 체크박스 토글링 */
     let toggleCompletAll = Number(completedAll.dataset.done);
     completedAll.addEventListener("click", () => {
       toggleCompletAll = !toggleCompletAll;
-      checkboxList.forEach((checkbox) => (checkbox.checked = toggleCompletAll));
-      // checkboxes
+      checkboxList.forEach((checkbox) => {
+        checkbox.checked = toggleCompletAll;
+        const todoInfoLink = check.nextSibling;
+        todoInfoLink.style.textDecoration = checkbox.checked
+          ? "line-through"
+          : "none";
+        response.data.items.forEach(async (item) => {
+          return await axios.patch(`${BASE_URL}/todolist/${item._id}`, {
+            done: toggleCompletAll,
+          });
+        });
+      });
     });
 
     registButton.addEventListener("click", () => {
