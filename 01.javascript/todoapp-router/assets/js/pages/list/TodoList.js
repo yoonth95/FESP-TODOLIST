@@ -30,18 +30,15 @@ const TodoList = async function () {
   deleteAll.setAttribute("name", "deleteAll");
   deleteAll.innerHTML = "전체삭제";
 
-  /* 등록 버튼 */
-  const registButton = Button("registButton", "button", "등록");
-
-  /* 필터버튼 */
-
   // 전체 데이터
   const dataResult = await axios(`${BASE_URL}/todolist`);
 
+  // 필터리스트
   const filterList = document.createElement("div");
   filterList.setAttribute("class", "filter-list");
   const filterAll = Button("filter-list__item", "button", "전체보기");
 
+  // 중요필터버튼
   const filterImportant = Button(
     "filter-list__item",
     "button",
@@ -49,19 +46,30 @@ const TodoList = async function () {
     // handleImportantFilter
   );
 
-  // 미완료 아이템 데이터 필터링
+  // 미완료 필터버튼
   const filterIncomplete = Button("filter-list__item", "button", "미완료");
 
-  /* 완료 아이템 데이터 필터링 */
+  // 완료 필터버튼
   const filterComplete = Button("filter-list__item", "button", "완료");
 
-  /* UI 렌더링 */
   filterList.append(
     filterAll,
     filterImportant,
     filterIncomplete,
     filterComplete
   );
+
+  // 등록버튼
+  const registButton = Button("registButton", "button", "등록");
+
+  // active 컨테이너 -> 필터링 버튼, 등록버튼
+  const activeContainer = document.createElement("div");
+  activeContainer.setAttribute("class", "active-container");
+
+  activeContainer.appendChild(filterList);
+  activeContainer.appendChild(registButton);
+
+  // 전체완료/전체삭제 체크리스트
   checkList.appendChild(completedAll);
   checkList.appendChild(deleteAll);
 
@@ -91,14 +99,14 @@ const TodoList = async function () {
       }
     });
 
-    contents.appendChild(registButton);
-    contents.appendChild(filterList);
-    contents.appendChild(checkList);
-
     const listAll = document.createElement("div");
     listAll.setAttribute("class", "todo-list-all");
     listAll.appendChild(importantList);
     listAll.appendChild(ul);
+
+    // contents 태그에 넣기(최상위)
+
+    contents.appendChild(checkList);
     contents.appendChild(listAll);
 
     // 중요보기 필터
@@ -155,7 +163,9 @@ const TodoList = async function () {
     console.log(err);
   }
 
+  // UI 렌더
   page.appendChild(Header("TODOLIST"));
+  page.appendChild(activeContainer);
   page.appendChild(contents);
   page.appendChild(Footer());
 
