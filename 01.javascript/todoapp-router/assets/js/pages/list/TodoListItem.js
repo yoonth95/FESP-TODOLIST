@@ -1,8 +1,7 @@
 import { linkTo } from '../../Router.js';
+import BASE_URL from '../../../api/BaseUrl.js';
 
 const TodoListItem = (item, checkboxes) => {
-  const BASE_URL = 'http://localhost:33088/api';
-
   const li = document.createElement('li');
   li.setAttribute('class', 'todolist__item');
 
@@ -25,7 +24,7 @@ const TodoListItem = (item, checkboxes) => {
       ? (result = true)
       : (result = false);
 
-    await axios.patch(`${BASE_URL}/todolist/${item._id}`, {
+    await axios.patch(`${BASE_URL}/${item._id}`, {
       important: result,
     });
 
@@ -45,7 +44,7 @@ const TodoListItem = (item, checkboxes) => {
     const deleteResult = confirm('삭제하시겠습니까?');
 
     if (deleteResult) {
-      await axios.delete(`${BASE_URL}/todolist/${item._id}`);
+      await axios.delete(`${BASE_URL}/${item._id}`);
       window.location.reload();
     }
   };
@@ -73,7 +72,7 @@ const TodoListItem = (item, checkboxes) => {
 
   // 체크박스토글 함수
   const handleToggleDone = async () => {
-    await axios.patch(`${BASE_URL}/todolist/${item._id}`, {
+    await axios.patch(`${BASE_URL}/${item._id}`, {
       done: checkbox.checked,
     });
 
