@@ -1,5 +1,6 @@
 import { linkTo } from '../../Router.js';
 import BASE_URL from '../../../api/BaseUrl.js';
+import HandleDataAll from '../../layout/HandleDataAll.js';
 
 const TodoListItem = (item, checkboxes) => {
   const li = document.createElement('li');
@@ -28,7 +29,10 @@ const TodoListItem = (item, checkboxes) => {
       important: result,
     });
 
-    window.location.reload();
+    const dataResult = await axios(`${BASE_URL}`);
+    const todolistData = dataResult?.data.items;
+
+    HandleDataAll('.todolist', todolistData);
   };
 
   importantButton.addEventListener('click', handleToggleImportant);
