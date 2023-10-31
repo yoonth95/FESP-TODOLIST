@@ -99,8 +99,16 @@ const TodoInfo = async function () {
   // 수정/삭제 버튼 박스
   const activeEl = document.createElement("div");
   activeEl.setAttribute("class", "active-box");
-  activeEl.appendChild(Button("edit-button", "click", "수정"));
-  activeEl.appendChild(Button("delete-button", "click", "삭제"));
+  activeEl.appendChild(
+    Button("edit-button", "click", "수정", () => {
+      linkTo(`/edit?_id=${_id}`);
+    })
+  );
+  activeEl.appendChild(
+    Button("delete-button", "click", "삭제", () => {
+      deleteDetailTodo();
+    })
+  );
   detailContainer.appendChild(activeEl);
 
   contents.appendChild(detailContainer);
@@ -125,9 +133,19 @@ const TodoInfo = async function () {
     // 중요 체크박스 업데이트
   };
 
+  const deleteDetailTodo = async () => {
+    if (confirm("삭제하시겠습니까?")) {
+      const response = await axios.delete(`${BASE_URL}/todolist/${_id}`);
+      if (response.data.ok === 1) {
+        alert("삭제되었습니다!");
+        linkTo("/");
+      }
+    }
+  };
+
   getDetailTodo();
 
-  page.appendChild(Header(`상세페이지 1`));
+  page.appendChild(Header(`${_id}번째 할 일`));
   page.appendChild(backButton);
   page.appendChild(contents);
   page.appendChild(Footer());
