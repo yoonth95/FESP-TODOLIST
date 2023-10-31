@@ -59,7 +59,6 @@ const TodoList = async function () {
     // ul.setAttribute = ("data-deadline", `${item.createdAt}`);
     const checkboxList = [];
     response.data?.items.forEach((item) => {
-      console.log(item);
       /* todoItem 초기렌더링 */
 
       const li = TodoListItem(item, checkboxList);
