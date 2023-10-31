@@ -22,6 +22,33 @@ const TodoRegist = function () {
   const form = document.createElement('form');
   form.setAttribute('id', 'todo-form');
 
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    const body = {
+      title: inputTitle.value,
+      content: textareaContent.value,
+      deadline: inputDeadline.value,
+      important: inputImportant.checked,
+      done: false,
+    };
+    // http
+    const res = await axios.post(`${BASE_URL}/todolist`, body);
+
+    if (res.status === 200) {
+      alert('등록이 정상적으로 완료되었습니다.');
+      window.location.pathname = '/';
+      // history.pushState(res, null, 'http://localhost:3000/');
+      // render();
+      // linkTo('');
+      // history.go(-1);
+    } else if (res.status === 500) {
+      alert('서버에 오류가 발생했습니다. 나중에 다시 시도하세요');
+    }
+  };
+
+  form.addEventListener('submit', handleSubmit);
+
   // Label
   const labelTitle = document.createElement('label');
   labelTitle.setAttribute('for', 'input-title');
@@ -151,45 +178,6 @@ const TodoRegist = function () {
   page.appendChild(Header('새로운 할일 등록하기'));
   page.appendChild(contents);
   page.appendChild(Footer());
-
-  // js 기능 시작
-
-  window.onload = function () {
-    // const cancelBtn = document.querySelector('.cancel-button');
-    const todoForm = document.getElementById('todo-form');
-
-    const handleSubmit = async (event) => {
-      event.preventDefault();
-
-      const body = {
-        title: inputTitle.value,
-        content: textareaContent.value,
-        deadline: inputDeadline.value,
-        important: inputImportant.checked,
-        done: false,
-      };
-      // http
-      const res = await axios.post(`${BASE_URL}/todolist`, body);
-
-      if (res.status === 200) {
-        alert('등록이 정상적으로 완료되었습니다.');
-        window.location.pathname = '/';
-        // history.pushState(res, null, 'http://localhost:3000/');
-        // render();
-        // linkTo('');
-        // history.go(-1);
-      } else if (res.status === 500) {
-        alert('서버에 오류가 발생했습니다. 나중에 다시 시도하세요');
-      }
-    };
-
-    // 등록 이벤트
-    todoForm.addEventListener('submit', handleSubmit);
-    // 취소 이벤트
-    // cancelBtn.addEventListener("click", () => {
-    //   window.location.pathname = "/";
-    // });
-  };
 
   return page;
 };
