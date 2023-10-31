@@ -11,7 +11,7 @@
 :root {
   --button-color: #b6843f;
   --bg-color: #fee7b3;
-  --star-color: #ffe895;
+  --star-color: #ffa200;
 
   --error-color: red;
   --gray-color: #e0e0e0;
@@ -49,6 +49,17 @@ a {
   color: inherit;
 }
 
+header {
+  margin-bottom: 120px;
+}
+
+footer {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 30px;
+}
+
 button {
   cursor: pointer;
 }
@@ -79,4 +90,16 @@ input:autofill:active {
 
 #app {
   max-width: 1024px;
+}
+
+/*공통 버튼 스타일*/
+.common-button {
+  background-color: var(--button-color);
+  padding: 10px 20px;
+  color: #fff;
+  border-radius: 10px;
+  border: none;
+
+  font-size: 20px;
+  font-weight: 600;
 }
