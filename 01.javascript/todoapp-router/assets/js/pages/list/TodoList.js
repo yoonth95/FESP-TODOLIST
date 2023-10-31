@@ -1,8 +1,10 @@
 // 할일 목록
+import createCheckbox from './checkbox.js';
 import Header from '../../layout/Header.js';
 import Footer from '../../layout/Footer.js';
 import { linkTo } from '../../Router.js';
-import createCheckbox from './checkbox.js';
+import Button from '../../layout/Button.js';
+import TodoListItem from './TodoListItem.js';
 
 const TodoList = async function () {
   const page = document.createElement('div');
@@ -32,6 +34,12 @@ const TodoList = async function () {
   const btnTitle = document.createTextNode('등록');
 
   /* UI 렌더링 */
+  filterList.append(
+    filterAll,
+    filterImportant,
+    filterIncomplete,
+    filterComplete
+  );
   checkList.appendChild(completedAll);
   checkList.appendChild(deleteAll);
 
@@ -49,7 +57,7 @@ const TodoList = async function () {
     const ul = document.createElement('ul');
     ul.setAttribute('class', 'todolist');
     // ul.setAttribute = ("data-deadline", `${item.createdAt}`);
-
+    const checkboxList = [];
     response.data?.items.forEach((item) => {
       /* todoItem 초기렌더링 */
       const li = document.createElement('li');
@@ -109,8 +117,8 @@ const TodoList = async function () {
       }
     });
 
-    registButton.appendChild(btnTitle);
     contents.appendChild(registButton);
+    contents.appendChild(filterList);
     contents.appendChild(checkList);
     contents.appendChild(importantList);
     contents.appendChild(ul);

@@ -14,10 +14,10 @@ async function getPage() {
     case '/regist':
       page = TodoRegist();
       break;
-    case `/info`:
+    case '/info':
       page = await TodoInfo();
       break;
-    case `/edit`:
+    case '/edit':
       page = await TodoUpdate();
       break;
   }

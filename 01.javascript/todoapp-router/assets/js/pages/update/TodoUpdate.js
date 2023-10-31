@@ -138,7 +138,7 @@ const TodoUpdate = async function () {
   // 등록/취소 버튼 박스
   const activeEl = document.createElement('div');
   activeEl.setAttribute('class', 'active-box');
-  activeEl.appendChild(Button('submit-button', 'submit', '수정'));
+  activeEl.appendChild(Button('submit-button', 'submit', '수정완료'));
   activeEl.appendChild(
     Button('cancel-button', 'button', '취소', () => {
       window.location.pathname = `/info/${_id}`;
