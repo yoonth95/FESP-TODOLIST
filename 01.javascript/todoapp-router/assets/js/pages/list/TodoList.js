@@ -34,12 +34,7 @@ const TodoList = async function () {
   const registButton = Button("registButton", "button", "등록");
 
   /* 필터버튼 */
-  const filterList = document.createElement("div");
-  filterList.setAttribute("class", "filter-list");
-  const filterAll = Button("filter-list__item", "button", "전체보기");
-  const filterImportant = Button("filter-list__item", "button", "중요");
-  const filterIncomplete = Button("filter-list__item", "button", "미완료");
-  const filterComplete = Button("filter-list__item", "button", "완료");
+
   // 전체 데이터
   const dataResult = await axios(`${BASE_URL}/todolist`);
 
