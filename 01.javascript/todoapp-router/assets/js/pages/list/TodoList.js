@@ -45,8 +45,8 @@ const TodoList = async function () {
   const filterImportant = Button(
     "filter-list__item",
     "button",
-    "중요",
-    handleImportantFilter
+    "중요"
+    // handleImportantFilter
   );
 
   // 미완료 아이템 데이터 필터링
@@ -100,8 +100,6 @@ const TodoList = async function () {
     listAll.appendChild(importantList);
     listAll.appendChild(ul);
     contents.appendChild(listAll);
-    contents.appendChild(importantList);
-    contents.appendChild(ul);
 
     // 중요보기 필터
     async function handleImportantFilter() {
@@ -118,7 +116,7 @@ const TodoList = async function () {
       toggleCompletAll = !toggleCompletAll;
       checkboxList.forEach((checkbox) => {
         checkbox.checked = toggleCompletAll;
-        const todoInfoLink = check.nextSibling;
+        const todoInfoLink = checkbox.nextSibling;
         todoInfoLink.style.textDecoration = checkbox.checked
           ? "line-through"
           : "none";
