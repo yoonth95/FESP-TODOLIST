@@ -153,8 +153,7 @@ span.check-true::before {
   position: relative;
   display: flex;
   flex-flow: row nowrap;
-  justify-content: flex-end;
-  gap: 16px;
+  justify-content: space-between;
 }
 
 .todo-container__check-list button {

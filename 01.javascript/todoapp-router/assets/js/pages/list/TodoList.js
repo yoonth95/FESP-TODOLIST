@@ -1,8 +1,7 @@
 // 할일 목록
 import Header from "../../layout/Header.js";
 import Footer from "../../layout/Footer.js";
-import { linkTo } from "../../Router.js";
-import createCheckbox from "./checkbox.js";
+import {linkTo} from "../../Router.js";
 
 const TodoList = async function () {
   const page = document.createElement("div");
@@ -19,6 +18,7 @@ const TodoList = async function () {
   const completedAll = document.createElement("button");
   completedAll.setAttribute("class", "completeAll");
   completedAll.innerHTML = "전체완료";
+  completedAll.setAttribute("data-done", 0);
 
   // 전체삭제 버튼텍스트
   const deleteAll = document.createElement("button");
@@ -50,7 +50,9 @@ const TodoList = async function () {
     ul.setAttribute("class", "todolist");
     // ul.setAttribute = ("data-deadline", `${item.createdAt}`);
 
+    const checkboxes = [];
     response.data?.items.forEach((item) => {
+      console.log(item);
       /* todoItem 초기렌더링 */
       const li = document.createElement("li");
       li.setAttribute("class", "todolist__item");
@@ -58,7 +60,10 @@ const TodoList = async function () {
       // TODO: 클릭하면 important 속성 변경
       /* todoItem 중요버튼 */
       const importantButton = document.createElement("button");
-      importantButton.setAttribute("class", `todolist__item--important-button ${!item.important ? null : "fill"}`);
+      importantButton.setAttribute(
+        "class",
+        `todolist__item--important-button ${!item.important ? null : "fill"}`
+      );
       importantButton.addEventListener("click", () => {
         importantButton.classList.toggle("fill");
       });
@@ -84,10 +89,10 @@ const TodoList = async function () {
       checkbox.setAttribute("id", `${item.title}`);
       if (item.done) {
         checkbox.setAttribute("checked", true);
+        /* item이 done일때 취소선 스타일링 */
         todoInfoLink.style.textDecoration = "line-through";
       }
-      /* item이 done일때 취소선 스타일링 */
-
+      checkboxes.push(checkbox);
       todoInfoLink.addEventListener("click", function (event) {
         // 브라우저의 기본 동작 취소(<a> 태그 동작 안하도록)
         event.preventDefault();
@@ -112,10 +117,11 @@ const TodoList = async function () {
     contents.appendChild(importantList);
     contents.appendChild(ul);
 
-    // TODO: checkboxes undefined
-    const checkboxes = document.querySelectorAll(".todolist__item--checkbox");
+    /* 전체완료 버튼 토글링 */
+    let toggleCompletAll = Number(completedAll.dataset.done);
     completedAll.addEventListener("click", () => {
-      console.log(checkboxes);
+      toggleCompletAll = !toggleCompletAll;
+      checkboxes.forEach((checkbox) => (checkbox.checked = toggleCompletAll));
       // checkboxes
     });
 
