@@ -30,7 +30,7 @@
   padding: 10px;
   border: none;
 }
-.register-button {
+/* .register-button {
   background-color: var(--button-color);
   padding: 10px 20px;
   color: #fff;
@@ -39,7 +39,7 @@
 
   font-size: 20px;
   font-weight: 600;
-}
+} */
 
 /*제목*/
 .title-box {
