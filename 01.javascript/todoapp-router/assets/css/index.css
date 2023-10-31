@@ -169,6 +169,7 @@ span.check-true::before {
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-between;
+  margin-bottom: 20px;
 }
 
 .todo-container__check-list button {

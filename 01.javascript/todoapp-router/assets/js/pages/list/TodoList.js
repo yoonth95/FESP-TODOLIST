@@ -22,14 +22,14 @@ const TodoList = async function () {
   // 전체완료 버튼텍스트
   const completedAll = document.createElement('button');
   completedAll.setAttribute('class', 'completeAll');
-  completedAll.innerHTML = '전체완료';
+  completedAll.innerHTML = '✅ 전체완료';
   completedAll.setAttribute('data-done', 0);
 
   // 전체삭제 버튼텍스트
   const deleteAll = document.createElement('button');
   deleteAll.setAttribute('class', 'deleteAll');
   deleteAll.setAttribute('name', 'deleteAll');
-  deleteAll.innerHTML = '전체삭제';
+  deleteAll.innerHTML = '❌ 전체삭제';
 
   /* 등록 버튼 */
   const registButton = Button('registButton', 'button', '등록');
