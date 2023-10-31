@@ -126,13 +126,21 @@ span.check-true::before {
   position: absolute;
   right: 12px;
   top: -80px;
-  background: var(--button-color);
-  color: #fff;
-  font-weight: bold;
   padding: 12px;
-  border-radius: 12px;
-  border: none;
-  font-size: 24px;
+}
+
+.filter-list {
+  width: 600px;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  position: absolute;
+  left: 12px;
+  top: -72px;
+}
+
+.common-button.filter-list__item {
+  padding: 5px 20px;
 }
 
 .todo-container {
@@ -153,8 +161,7 @@ span.check-true::before {
   position: relative;
   display: flex;
   flex-flow: row nowrap;
-  justify-content: flex-end;
-  gap: 16px;
+  justify-content: space-between;
 }
 
 .todo-container__check-list button {
