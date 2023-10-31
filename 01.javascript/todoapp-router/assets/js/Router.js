@@ -2,10 +2,10 @@ import TodoList from './pages/list/TodoList.js';
 import TodoRegist from './pages/regist/TodoRegist.js';
 import TodoInfo from './pages/info/TodoInfo.js';
 
-async function getPage(){
+async function getPage() {
   let page;
-  console.log(location);
-  switch(location.pathname){
+  // console.log(location);
+  switch (location.pathname) {
     case '/':
       page = await TodoList();
       break;
@@ -20,19 +20,19 @@ async function getPage(){
   return page;
 }
 
-async function render(){
+async function render() {
   const page = await getPage();
   document.querySelector('#page').replaceWith(page);
 }
 
 window.addEventListener('popstate', render);
 
-export function linkTo(url){
+export function linkTo(url) {
   history.pushState({}, 'todo', url);
   render();
 }
 
-const Router = async function(){
+const Router = async function () {
   return await getPage();
 };
 
