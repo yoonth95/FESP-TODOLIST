@@ -3,6 +3,8 @@ import Header from "../../layout/Header.js";
 import Footer from "../../layout/Footer.js";
 import Button from "../../layout/Button.js";
 
+import { linkTo } from "../../Router.js";
+
 const BASE_URL = "http://localhost:33088/api";
 
 const TodoInfo = async function () {
@@ -41,7 +43,6 @@ const TodoInfo = async function () {
 
   const labelImportant = document.createElement("label");
   labelImportant.setAttribute("for", "input-important");
-  labelImportant.classList = "label-important";
   labelImportant.classList.add("register-label");
   labelImportant.innerText = "중요";
 
@@ -55,8 +56,15 @@ const TodoInfo = async function () {
   const detailDeadline = document.createElement("p");
   detailDeadline.setAttribute("id", "detail-deadline");
 
+  // 중요 체크박스
   const detailImportant = document.createElement("span");
   detailImportant.setAttribute("id", "detail-important");
+  const starIcon = document.createElement("i");
+  starIcon.setAttribute("class", "fa-solid fa-star");
+  starIcon.style.color = "var(--gray-color)";
+  starIcon.style.marginLeft = "10px";
+  starIcon.style.fontFamily = "Font Awesome 5 Free";
+  detailImportant.appendChild(starIcon);
 
   // Dom 추가
   // title div박스
@@ -97,8 +105,9 @@ const TodoInfo = async function () {
 
   contents.appendChild(detailContainer);
 
+  // 뒤로가기버튼
   const backButton = Button("cancel-button", "button", "뒤로가기", () => {
-    window.location.pathname = "/";
+    linkTo("/");
   });
 
   // http => 상세todo조회
@@ -109,7 +118,11 @@ const TodoInfo = async function () {
     detailTitle.innerHTML = detailData.title;
     detailContent.innerHTML = detailData.content;
     detailDeadline.innerHTML = detailData.deadline;
-    detailImportant.innerHTML = detailData.important;
+    if (detailData.important) {
+      starIcon.style.color = "var(--star-color)";
+    }
+
+    // 중요 체크박스 업데이트
   };
 
   getDetailTodo();

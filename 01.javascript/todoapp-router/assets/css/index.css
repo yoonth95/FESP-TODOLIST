@@ -233,4 +233,8 @@ span.check-true::before {
   height: 200px;
 }
 
+#detail-content {
+  line-height: 32px;
+}
+
 /* update */
