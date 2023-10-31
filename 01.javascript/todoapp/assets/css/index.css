@@ -1,10 +1,115 @@
 /* // 전체 css */
-@import "./global.css";
+@import './global.css';
+
+#contents {
+  width: 1024px;
+}
 
 /* regist */
 
-/* list */
+#contents {
+  width: 1024px;
+}
 
+#todo-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100;
+  background-color: #fff;
+}
+
+.title-box {
+  display: flex;
+  gap: 10px;
+}
+
+.label-title {
+}
+
+#input-title {
+}
+
+.content-box {
+}
+
+.label-content {
+}
+
+#input-content {
+}
+
+.deadline-box {
+}
+
+.label-deadline {
+}
+
+#input-deadline {
+}
+
+.important-box {
+}
+
+.label-important {
+}
+
+#input-important {
+}
+
+.active-box {
+}
+
+.submit-button {
+}
+
+.cancel-button {
+}
+
+/* list */
+.todo-container {
+  width: 1024px;
+  max-height: 315px;
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 14px;
+  font-weight: bold;
+}
+
+.todolist__item {
+  display: flex;
+  position: relative;
+  align-items: center;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  margin: 24px;
+}
+
+.todolist__item--todo-info-link {
+  position: absolute;
+  padding-left: 31px;
+  top: -5px;
+}
+
+#importantButton {
+  position: absolute;
+  right: 24px;
+  border: none;
+  width: 24px;
+  height: 24px;
+  background: url("./../img/star.svg") no-repeat;
+}
+
+#deleteButton {
+  display: block;
+  position: absolute;
+  right: 0;
+  bottom: -5px;
+  background: url("./../img/garbage.svg") no-repeat;
+  width: 21px;
+  height: 21px;
+  object-fit: cover;
+}
 /* info */
 
 /* update */
