@@ -103,9 +103,7 @@ const TodoList = async function () {
 
     // 중요보기 필터
     async function handleImportantFilter() {
-      const responseData = response?.data.items;
-
-      const importantResult = responseData.filter((item) => item.important);
+      const importantResult = todosResponse.filter((item) => item.important);
 
       ul.appendChild(TodoListItem(importantResult));
     }
