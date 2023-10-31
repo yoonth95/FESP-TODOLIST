@@ -1,10 +1,11 @@
 /* // 전체 css */
-@import './global.css';
+@import "./global.css";
 
 /* regist */
 /*전체 컨테이너*/
 #contents {
   width: 1024px;
+  height: 500px;
   position: relative;
 }
 /*폼 양식 컨테이너*/
@@ -96,14 +97,14 @@
 /*별표모양 체크박스 아이콘 설정*/
 /*체크 될 때*/
 #input-important:checked + span.check-true::before {
-  content: '\f005';
-  font-family: 'Font Awesome 5 Free';
+  content: "\f005";
+  font-family: "Font Awesome 5 Free";
   color: var(--star-color);
 }
 /*체크 안 될때*/
 span.check-true::before {
-  content: '\f005';
-  font-family: 'Font Awesome 5 Free';
+  content: "\f005";
+  font-family: "Font Awesome 5 Free";
   color: var(--gray-color);
 }
 /*별표 체크박스 없애기*/
@@ -143,14 +144,19 @@ span.check-true::before {
 .todo-container {
   width: 1024px;
   min-height: 315px;
-  height: auto;
   background-color: #fff;
   border-radius: 10px;
   padding: 32px;
   font-weight: bold;
 }
 
+.todo-list-all {
+  max-height: 436px;
+  overflow-y: scroll;
+}
+
 .important-list {
+  display: none;
   border-bottom: 2px solid #000;
 }
 
@@ -184,7 +190,7 @@ span.check-true::before {
   border: none;
   width: 24px;
   height: 24px;
-  background: url('./../img/star.svg') no-repeat;
+  background: url("./../img/star.svg") no-repeat;
 }
 
 .todolist__item--checkbox {
@@ -199,12 +205,12 @@ span.check-true::before {
 }
 
 .fill {
-  background: url('./../img/star--fill.svg') no-repeat;
+  background: url("./../img/star--fill.svg") no-repeat;
 }
 
 .todolist__item--delete-button {
   display: block;
-  background: url('./../img/garbage.svg') no-repeat;
+  background: url("./../img/garbage.svg") no-repeat;
   width: 21px;
   height: 21px;
   object-fit: cover;
