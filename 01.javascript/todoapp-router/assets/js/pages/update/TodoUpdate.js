@@ -16,12 +16,10 @@ const TodoUpdate = async function () {
   // params 받아오기
   const params = new URLSearchParams(location.search);
   const _id = params.get('_id');
-  console.log(_id);
 
   // axios 가져오기
   const res = await axios(`${BASE_URL}/todolist/${_id}`);
-  const { deadline, important, title } = res.data.item;
-  // console.log(res.data.items);
+  const { deadline, important, title, content } = res.data.item;
 
   // 양식 폼 박스
   const form = document.createElement('form');
@@ -32,7 +30,7 @@ const TodoUpdate = async function () {
 
     const body = {
       title: inputTitle.value,
-      // content: textareaContent.value,
+      content: textareaContent.value,
       deadline: inputDeadline.value,
       important: inputImportant.checked,
     };
@@ -85,7 +83,7 @@ const TodoUpdate = async function () {
   const textareaContent = document.createElement('textarea');
   textareaContent.setAttribute('id', 'textarea-content');
   textareaContent.setAttribute('required', true);
-  textareaContent.placeholder = '할일의 상세 내용을 입력하세요';
+  textareaContent.value = content;
 
   const inputDeadline = document.createElement('input');
   inputDeadline.setAttribute('id', 'input-deadline');
