@@ -1,6 +1,7 @@
 // 할일 등록
 import Header from "../../layout/Header.js";
 import Footer from "../../layout/Footer.js";
+import Button from "../../layout/Button.js";
 
 // 들어가야할 요소
 // 이전 버튼(button)
@@ -48,14 +49,14 @@ const TodoRegist = function () {
   // Input
   const inputTitle = document.createElement("input");
   inputTitle.setAttribute("id", "input-title");
+  inputTitle.setAttribute("required", true);
   inputTitle.classList.add("register-input");
   inputTitle.type = "text";
-  inputTitle.required;
   inputTitle.placeholder = "할일의 제목을 입력하세요";
 
   const textareaContent = document.createElement("textarea");
   textareaContent.setAttribute("id", "textarea-content");
-  textareaContent.required;
+  textareaContent.setAttribute("required", true);
   textareaContent.placeholder = "할일의 상세 내용을 입력하세요";
 
   const inputDeadline = document.createElement("input");
@@ -87,17 +88,20 @@ const TodoRegist = function () {
 
   // acitve 박스
   // 전송 버튼
-  const submitBtn = document.createElement("button");
-  submitBtn.setAttribute("class", "submit-button");
-  submitBtn.classList.add("register-button");
-  submitBtn.type = "submit";
-  submitBtn.innerText = "등록";
+  // const submitBtn = document.createElement("button");
+  // submitBtn.setAttribute("class", "submit-button");
+  // submitBtn.classList.add("common-button");
+  // submitBtn.type = "submit";
+  // submitBtn.innerText = "등록";
+  Button("submit-button", "submit", "등록");
+
   // 취소 버튼(이전 버튼)
-  const cancelBtn = document.createElement("button");
-  cancelBtn.setAttribute("class", "cancel-button");
-  cancelBtn.classList.add("register-button");
-  cancelBtn.type = "button";
-  cancelBtn.innerText = "취소";
+  // const cancelBtn = document.createElement("button");
+  // cancelBtn.setAttribute("class", "cancel-button");
+  // cancelBtn.classList.add("common-button");
+  // cancelBtn.type = "button";
+  // cancelBtn.innerText = "취소";
+  Button("cancel-button", "submit", "취소");
 
   // Dom 추가
   // title div박스
@@ -133,8 +137,8 @@ const TodoRegist = function () {
   // 등록/취소 버튼 박스
   const activeEl = document.createElement("div");
   activeEl.setAttribute("class", "active-box");
-  activeEl.appendChild(submitBtn);
-  activeEl.appendChild(cancelBtn);
+  activeEl.appendChild(Button("submit-button", "submit", "등록"));
+  activeEl.appendChild(Button("cancel-button", "button", "취소"));
   form.appendChild(activeEl);
 
   contents.appendChild(form);
@@ -143,26 +147,38 @@ const TodoRegist = function () {
   page.appendChild(contents);
   page.appendChild(Footer());
 
-  // 등록 이벤트
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  // js 기능 시작
 
-    const body = {
-      title: inputTitle.value,
-      content: textareaContent.value,
-      deadline: inputDeadline.value,
-      important: inputImportant.checked,
+  document.addEventListener("DOMContentLoaded", () => {
+    const cancelBtn = document.querySelector(".cancel-button");
+    const todoForm = document.getElementById("todo-form");
+    const handleSubmit = async (event) => {
+      event.preventDefault();
+
+      const body = {
+        title: inputTitle.value,
+        content: textareaContent.value,
+        deadline: inputDeadline.value,
+        important: inputImportant.checked,
+        done: false,
+      };
+      // http
+      const res = await axios.post(`${BASE_URL}/todolist`, body);
+
+      if (res.status === 200) {
+        alert("등록이 정상적으로 완료되었습니다.");
+        window.location.pathname = "/";
+      } else if (res.status === 500) {
+        alert("서버에 오류가 발생했습니다. 나중에 다시 시도하세요");
+      }
     };
-    // http
-    await axios.post(`${BASE_URL}/todolist`, body);
 
-    window.location.pathname = "/";
-  };
-  submitBtn.addEventListener("click", handleSubmit);
-
-  // 취소 이벤트
-  cancelBtn.addEventListener("click", () => {
-    window.location.pathname = "/";
+    // 등록 이벤트
+    todoForm.addEventListener("submit", handleSubmit);
+    // 취소 이벤트
+    cancelBtn.addEventListener("click", () => {
+      window.location.pathname = "/";
+    });
   });
 
   return page;
