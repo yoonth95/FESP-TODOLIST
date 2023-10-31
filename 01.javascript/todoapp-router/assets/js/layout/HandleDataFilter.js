@@ -11,6 +11,7 @@ const HandleDataFilter = async function (className, data, value) {
     result = data.filter((v) => v[value]);
   }
 
+  const importantList = document.querySelector('.important-list');
   const elem = document.querySelector(className);
   const checkboxList = [];
 
@@ -20,6 +21,12 @@ const HandleDataFilter = async function (className, data, value) {
 
   while (elem.firstChild) {
     elem.removeChild(elem.firstChild);
+  }
+
+  if (importantList) {
+    while (importantList.firstChild) {
+      importantList.removeChild(importantList.firstChild);
+    }
   }
 
   if (result.length === 0) {

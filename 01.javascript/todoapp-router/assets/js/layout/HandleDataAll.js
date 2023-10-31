@@ -4,6 +4,8 @@ const HandleDataAll = async function (className, data) {
   const elem = document.querySelector(className);
   const checkboxList = [];
 
+  const importantList = document.querySelector('.important-list');
+
   const textElement = document.createElement('li');
   textElement.setAttribute('class', 'todo-list-empty');
   textElement.innerText = '일정이 없습니다 : )';
@@ -12,12 +14,22 @@ const HandleDataAll = async function (className, data) {
     elem.removeChild(elem.firstChild);
   }
 
+  if (importantList) {
+    while (importantList.firstChild) {
+      importantList.removeChild(importantList.firstChild);
+    }
+  }
+
   if (data.length === 0) {
     elem.appendChild(textElement);
   } else {
     data.forEach((item) => {
       const resultItem = TodoListItem(item, checkboxList);
-      elem.appendChild(resultItem);
+      if (item.important) {
+        importantList.appendChild(resultItem);
+      } else {
+        elem.appendChild(resultItem);
+      }
     });
   }
 };
