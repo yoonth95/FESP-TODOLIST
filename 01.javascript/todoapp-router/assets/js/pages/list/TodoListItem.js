@@ -37,7 +37,6 @@ const TodoListItem = (item, checkboxes) => {
   /* todoItem 삭제 버튼 */
   const deleteButton = document.createElement('a');
   deleteButton.setAttribute('class', 'todolist__item--delete-button');
-  deleteButton.setAttribute('href', `?_id=${item._id}`);
 
   // todo아이템 삭제
   const handleDelete = async () => {
