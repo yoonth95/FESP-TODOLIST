@@ -1,8 +1,8 @@
 import { linkTo } from '../../Router.js';
+import BASE_URL from '../../../api/BaseUrl.js';
+import HandleDataAll from '../../layout/HandleDataAll.js';
 
 const TodoListItem = (item, checkboxes) => {
-  const BASE_URL = 'http://localhost:33088/api';
-
   const li = document.createElement('li');
   li.setAttribute('class', 'todolist__item');
 
@@ -25,11 +25,14 @@ const TodoListItem = (item, checkboxes) => {
       ? (result = true)
       : (result = false);
 
-    await axios.patch(`${BASE_URL}/todolist/${item._id}`, {
+    await axios.patch(`${BASE_URL}/${item._id}`, {
       important: result,
     });
 
-    window.location.reload();
+    const dataResult = await axios(`${BASE_URL}`);
+    const todolistData = dataResult?.data.items;
+
+    HandleDataAll('.todolist', todolistData);
   };
 
   importantButton.addEventListener('click', handleToggleImportant);
@@ -38,14 +41,13 @@ const TodoListItem = (item, checkboxes) => {
   /* todoItem 삭제 버튼 */
   const deleteButton = document.createElement('a');
   deleteButton.setAttribute('class', 'todolist__item--delete-button');
-  deleteButton.setAttribute('href', `?_id=${item._id}`);
 
   // todo아이템 삭제
   const handleDelete = async () => {
     const deleteResult = confirm('삭제하시겠습니까?');
 
     if (deleteResult) {
-      await axios.delete(`${BASE_URL}/todolist/${item._id}`);
+      await axios.delete(`${BASE_URL}/${item._id}`);
       window.location.reload();
     }
   };
@@ -73,7 +75,7 @@ const TodoListItem = (item, checkboxes) => {
 
   // 체크박스토글 함수
   const handleToggleDone = async () => {
-    await axios.patch(`${BASE_URL}/todolist/${item._id}`, {
+    await axios.patch(`${BASE_URL}/${item._id}`, {
       done: checkbox.checked,
     });
 
