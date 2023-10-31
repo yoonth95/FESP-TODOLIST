@@ -1,6 +1,5 @@
 const Footer = function () {
   const footerNode = document.createElement("footer");
-  footerNode.style.textAlign = "center";
   const pNode = document.createElement("p");
   const content = document.createTextNode("FESP 1기 Javascript Project");
   pNode.appendChild(content);
