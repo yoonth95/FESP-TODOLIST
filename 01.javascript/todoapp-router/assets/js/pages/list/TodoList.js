@@ -1,7 +1,8 @@
 // 할일 목록
 import Header from "../../layout/Header.js";
 import Footer from "../../layout/Footer.js";
-import {linkTo} from "../../Router.js";
+import { linkTo } from "../../Router.js";
+import Button from "../../layout/Button.js";
 
 const TodoList = async function () {
   const page = document.createElement("div");
@@ -27,11 +28,18 @@ const TodoList = async function () {
   deleteAll.innerHTML = "전체삭제";
 
   /* 등록 버튼 */
-  const registButton = document.createElement("button");
-  registButton.setAttribute("class", "registButton");
-  const btnTitle = document.createTextNode("등록");
+  const registButton = Button("registButton", "button", "등록");
+
+  /* 필터버튼 */
+  const filterList = document.createElement("div");
+  filterList.setAttribute("class", "filter-list");
+  const filterAll = Button("filter-list__item", "button", "전체보기");
+  const filterImportant = Button("filter-list__item", "button", "중요");
+  const filterIncomplete = Button("filter-list__item", "button", "미완료");
+  const filterComplete = Button("filter-list__item", "button", "완료");
 
   /* UI 렌더링 */
+  filterList.append(filterAll, filterImportant, filterIncomplete, filterComplete);
   checkList.appendChild(completedAll);
   checkList.appendChild(deleteAll);
 
@@ -42,7 +50,6 @@ const TodoList = async function () {
     /* 중요 아이템 리스트 컨테이너 */
     const importantList = document.createElement("ul");
     importantList.setAttribute("class", "important-list");
-    // importantList.tex = "중요할일";
 
     // TODO: item.deadline 봐서 만들어진 컨테이너가 없으면 생성하고, 있으면 있는 거에 li 만 만들어서 붙이기
 
@@ -60,10 +67,7 @@ const TodoList = async function () {
       // TODO: 클릭하면 important 속성 변경
       /* todoItem 중요버튼 */
       const importantButton = document.createElement("button");
-      importantButton.setAttribute(
-        "class",
-        `todolist__item--important-button ${!item.important ? null : "fill"}`
-      );
+      importantButton.setAttribute("class", `todolist__item--important-button ${!item.important ? null : "fill"}`);
       importantButton.addEventListener("click", () => {
         importantButton.classList.toggle("fill");
       });
@@ -94,7 +98,6 @@ const TodoList = async function () {
       }
       checkboxes.push(checkbox);
       todoInfoLink.addEventListener("click", function (event) {
-        // 브라우저의 기본 동작 취소(<a> 태그 동작 안하도록)
         event.preventDefault();
         linkTo(todoInfoLink.getAttribute("href"));
       });
@@ -111,8 +114,8 @@ const TodoList = async function () {
       }
     });
 
-    registButton.appendChild(btnTitle);
     contents.appendChild(registButton);
+    contents.appendChild(filterList);
     contents.appendChild(checkList);
     contents.appendChild(importantList);
     contents.appendChild(ul);
