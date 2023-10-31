@@ -5,6 +5,8 @@ import { linkTo } from '../../Router.js';
 import Button from '../../layout/Button.js';
 import TodoListItem from './TodoListItem.js';
 
+const BASE_URL = 'http://localhost:33088/api';
+
 const TodoList = async function () {
   const page = document.createElement('div');
   page.setAttribute('id', 'page');
@@ -91,12 +93,28 @@ const TodoList = async function () {
     registButton.addEventListener('click', () => {
       linkTo('regist');
     });
+
+    // 아이템 전체 삭제 함수
+    const handleAllDelete = () => {
+      const result = confirm('전체 삭제하시겠습니까?');
+
+      if (result) {
+        const res = response.data?.items.map(async (item) => {
+          await axios.delete(`${BASE_URL}/todolist/${item._id}`);
+        });
+        if (res.length === response.data?.items.length) {
+          window.location.reload();
+        }
+      }
+    };
+
+    deleteAll.addEventListener('click', handleAllDelete);
   } catch (err) {
     const error = document.createTextNode('일시적인 오류 발생');
     console.log(err);
   }
 
-  page.appendChild(Header('TODO App 목록 조회'));
+  page.appendChild(Header('TODOLIST'));
   page.appendChild(contents);
   page.appendChild(Footer());
 
