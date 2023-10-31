@@ -1,3 +1,5 @@
+import { linkTo } from "../../Router.js";
+
 const TodoListItem = (item, checkboxes) => {
   const li = document.createElement("li");
   li.setAttribute("class", "todolist__item");
@@ -5,7 +7,10 @@ const TodoListItem = (item, checkboxes) => {
   // TODO: 클릭하면 important 속성 변경
   /* todoItem 중요버튼 */
   const importantButton = document.createElement("button");
-  importantButton.setAttribute("class", `todolist__item--important-button ${!item.important ? null : "fill"}`);
+  importantButton.setAttribute(
+    "class",
+    `todolist__item--important-button ${!item.important ? null : "fill"}`
+  );
   importantButton.addEventListener("click", () => {
     importantButton.classList.toggle("fill");
   });

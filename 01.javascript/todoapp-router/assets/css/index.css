@@ -217,5 +217,20 @@ span.check-true::before {
 }
 
 /* info */
+#detail-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  width: 100%;
+  margin: 20px 0;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  position: relative;
+}
+.detail-content-box {
+  height: 200px;
+}
 
 /* update */
