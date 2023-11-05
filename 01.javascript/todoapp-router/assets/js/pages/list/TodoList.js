@@ -19,18 +19,6 @@ const TodoList = async function () {
   const checkList = document.createElement("div");
   checkList.setAttribute("class", "todo-container__check-list");
 
-  // 전체완료 버튼텍스트
-  const completedAll = document.createElement("button");
-  completedAll.setAttribute("class", "completeAll");
-  completedAll.innerHTML = "✅ 전체완료";
-  completedAll.setAttribute("data-done", 0);
-
-  // 전체삭제 버튼텍스트
-  const deleteAll = document.createElement("button");
-  deleteAll.setAttribute("class", "deleteAll");
-  deleteAll.setAttribute("name", "deleteAll");
-  deleteAll.innerHTML = "❌ 전체삭제";
-
   /* 필터버튼 */
 
   // 전체 데이터
@@ -77,92 +65,105 @@ const TodoList = async function () {
   activeContainer.appendChild(filterList);
   activeContainer.appendChild(registButton);
 
+  // 전체완료 버튼텍스트
+  const completedAll = document.createElement("button");
+  completedAll.setAttribute("class", "completeAll");
+  completedAll.innerHTML = "✅ 전체완료";
+  completedAll.setAttribute("data-done", 0);
+
+  // 전체삭제 버튼텍스트
+  const deleteAll = document.createElement("button");
+  deleteAll.setAttribute("class", "deleteAll");
+  deleteAll.setAttribute("name", "deleteAll");
+  deleteAll.innerHTML = "❌ 전체삭제";
+
   // 전체완료/전체삭제 체크리스트
   checkList.appendChild(completedAll);
   checkList.appendChild(deleteAll);
 
+  // 서버 통신 로직
+  // try {
   let response;
-  try {
-    response = await axios("http://localhost:33088/api/todolist");
-    const todosResponse = response.data?.items;
-    /* 중요 아이템 리스트 컨테이너 */
-    const importantList = document.createElement("ul");
-    importantList.setAttribute("class", "important-list");
+  response = await axios("http://localhost:33088/api/todolist");
+  const todosResponse = response.data?.items;
+  // 중요 아이템 리스트 컨테이너
+  const importantList = document.createElement("ul");
+  importantList.setAttribute("class", "important-list");
+  // 일반 아이템 리스트 컨테이너
+  const normalList = document.createElement("ul");
+  normalList.setAttribute("class", "todolist");
 
-    // TODO: item.deadline 봐서 만들어진 컨테이너가 없으면 생성하고, 있으면 있는 거에 li 만 만들어서 붙이기
+  const checkboxList = [];
+  todosResponse.forEach((item) => {
+    /* todoItem 초기렌더링 */
+    const li = TodoListItem(item, checkboxList);
+    if (item.important) {
+      importantList.style.display = "block";
+      importantList.appendChild(li);
+    } else {
+      normalList.appendChild(li);
+    }
+  });
 
-    const ul = document.createElement("ul");
-    ul.setAttribute("class", "todolist");
-    // ul.setAttribute = ("data-deadline", `${item.createdAt}`);
-    const checkboxList = [];
-    todosResponse.forEach((item) => {
-      /* todoItem 초기렌더링 */
+  const listAll = document.createElement("div");
+  listAll.setAttribute("class", "todo-list-all");
+  listAll.appendChild(importantList);
+  listAll.appendChild(normalList);
 
-      const li = TodoListItem(item, checkboxList);
-      if (item.important) {
-        importantList.style.display = "block";
-        importantList.appendChild(li);
-      } else {
-        ul.appendChild(li);
-      }
-    });
+  // contents 태그에 넣기(최상위)
 
-    const listAll = document.createElement("div");
-    listAll.setAttribute("class", "todo-list-all");
-    listAll.appendChild(importantList);
-    listAll.appendChild(ul);
+  contents.appendChild(checkList);
+  contents.appendChild(listAll);
 
-    // contents 태그에 넣기(최상위)
-
-    contents.appendChild(checkList);
-    contents.appendChild(listAll);
-
+  // 아이템 전체 완료 함수
+  const handleAllDone = () => {
     /* 전체완료 체크박스 토글링 */
     let toggleCompletAll = Number(completedAll.dataset.done);
-    completedAll.addEventListener("click", () => {
-      toggleCompletAll = !toggleCompletAll;
-      checkboxList.forEach((checkbox) => {
-        checkbox.checked = toggleCompletAll;
-        const todoInfoLink = checkbox.nextSibling;
-        todoInfoLink.style.textDecoration = checkbox.checked
-          ? "line-through"
-          : "none";
-        response.data.items.forEach(async (item) => {
-          return await axios.patch(`${BASE_URL}/${item._id}`, {
-            done: toggleCompletAll,
-          });
+
+    toggleCompletAll = !toggleCompletAll;
+    checkboxList.forEach((checkbox) => {
+      checkbox.checked = toggleCompletAll;
+      const todoInfoLink = checkbox.nextSibling;
+      todoInfoLink.style.textDecoration = checkbox.checked
+        ? "line-through"
+        : "none";
+      todosResponse.forEach(async (item) => {
+        return await axios.patch(`${BASE_URL}/${item._id}`, {
+          done: toggleCompletAll,
         });
       });
     });
+  };
+  completedAll.addEventListener("click", handleAllDone);
 
-    registButton.addEventListener("click", () => {
-      linkTo("regist");
-    });
+  // 아이템 전체 삭제 함수
+  const handleAllDelete = () => {
+    if (todosResponse.length === 0) {
+      alert("삭제할 할일이 없어요~");
+      return;
+    }
+    const result = confirm("전체 삭제하시겠습니까?");
 
-    // 아이템 전체 삭제 함수
-    const handleAllDelete = () => {
-      if (todosResponse.length === 0) {
-        alert("삭제할 할일이 없어요~");
-        return;
+    if (result) {
+      const deleteResArr = todosResponse.map(async (item) => {
+        await axios.delete(`${BASE_URL}/${item._id}`);
+      });
+
+      if (deleteResArr.length === todosResponse.length) {
+        window.location.reload();
       }
-      const result = confirm("전체 삭제하시겠습니까?");
+    }
+  };
+  deleteAll.addEventListener("click", handleAllDelete);
 
-      if (result) {
-        const deleteResArr = todosResponse.map(async (item) => {
-          await axios.delete(`${BASE_URL}/${item._id}`);
-        });
-
-        if (deleteResArr.length === todosResponse.length) {
-          window.location.reload();
-        }
-      }
-    };
-
-    deleteAll.addEventListener("click", handleAllDelete);
-  } catch (err) {
-    const error = document.createTextNode("일시적인 오류 발생");
-    console.log(err);
-  }
+  // 등록페이지 라우팅
+  registButton.addEventListener("click", () => {
+    linkTo("regist");
+  });
+  // } catch (err) {
+  //   const error = document.createTextNode("일시적인 오류 발생");
+  //   console.log(err);
+  // }
 
   // UI 렌더
   page.appendChild(Header("TODOLIST"));
