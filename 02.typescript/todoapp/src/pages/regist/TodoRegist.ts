@@ -4,7 +4,7 @@ import Footer from "../../layout/Footer";
 import Button from "../../layout/Button";
 
 import BASE_URL from "../../api/BaseUrl";
-import { TodoItem } from "../../todoapp";
+import { TodoResponse, TodoErrorResponse } from "../../todoapp";
 import axios from "axios";
 
 // 들어가야할 요소
@@ -35,7 +35,10 @@ const TodoRegist = function () {
     };
 
     // http
-    const res = await axios.post<TodoItem>(`${BASE_URL}`, body);
+    const res = await axios.post<TodoResponse | TodoErrorResponse>(
+      `${BASE_URL}`,
+      body
+    );
 
     if (res.status === 200) {
       alert("등록이 정상적으로 완료되었습니다.");
