@@ -21,7 +21,7 @@ interface TodoListResponse {
   };
 }
 
-export interface TodoErrorResponse {
+interface TodoErrorResponse {
   ok: number;
   error: {
     message: string;

@@ -1,10 +1,12 @@
+import axios from "axios";
+
 import Button from "../../layout/Button";
 import Header from "../../layout/Header";
 import Footer from "../../layout/Footer";
+
 import { linkTo } from "../../Router";
 import BASE_URL from "../../api/BaseUrl";
-import axios from "axios";
-import { TodoResponse, TodoErrorResponse } from "../../todoapp";
+
 import "../../global.css";
 import "./TodoUpdate.css";
 

@@ -1,11 +1,12 @@
 // 할일 등록
+import axios from "axios";
+
 import Header from "../../layout/Header";
 import Footer from "../../layout/Footer";
 import Button from "../../layout/Button";
 
 import BASE_URL from "../../api/BaseUrl";
-import { TodoResponse, TodoErrorResponse } from "../../todoapp";
-import axios from "axios";
+
 import "../../global.css";
 import "./TodoRegist.css";
 
