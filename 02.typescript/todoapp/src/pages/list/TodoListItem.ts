@@ -1,25 +1,29 @@
-import { linkTo } from "../../Router.js";
-import BASE_URL from "../../../api/BaseUrl.js";
-import HandleDataAll from "../../layout/HandleDataAll.js";
+import axios from "axios";
 
-const TodoListItem = (item, checkboxes) => {
+import { linkTo } from "../../Router";
+
+import HandleDataAll from "../../layout/HandleDataAll";
+import BASE_URL from "../../api/BaseUrl";
+
+import "./TodoListItem.css";
+import "../../global.css";
+
+const TodoListItem = (item: TodoItem) => {
   const li = document.createElement("li");
-  li.setAttribute("class", "todolist__item");
+  li.setAttribute("class", "todo-item");
 
   // TODO: 클릭하면 important 속성 변경
   /* todoItem 중요버튼 */
   const importantButton = document.createElement("button");
   importantButton.setAttribute(
     "class",
-    `todolist__item--important-button ${!item.important ? null : "fill"}`
+    `todo-item--important-button ${!item.important ? null : "fill"}`
   );
-  importantButton.addEventListener("click", () => {
-    importantButton.classList.toggle("fill");
-  });
 
   // 중요토글 함수
   const handleToggleImportant = async () => {
     let result;
+    importantButton.classList.toggle("fill");
 
     importantButton.classList.contains("fill")
       ? (result = true)
@@ -40,7 +44,7 @@ const TodoListItem = (item, checkboxes) => {
   // TODO: 클릭하면 삭제
   /* todoItem 삭제 버튼 */
   const deleteButton = document.createElement("a");
-  deleteButton.setAttribute("class", "todolist__item--delete-button");
+  deleteButton.setAttribute("class", "todo-item--delete-button");
 
   // todo아이템 삭제
   const handleDelete = async () => {
@@ -54,10 +58,10 @@ const TodoListItem = (item, checkboxes) => {
 
   deleteButton.addEventListener("click", handleDelete);
 
-  /* todoItem 상세보기 모달링크 */
+  /* todoItem 상세보기*/
   const todoInfoLink = document.createElement("a");
   todoInfoLink.setAttribute("href", `info?_id=${item._id}`);
-  todoInfoLink.setAttribute("class", "todolist__item--todo-info-link");
+  todoInfoLink.setAttribute("class", "todo-item--todoInfo-link");
   todoInfoLink.setAttribute("for", `${item.title}`);
   const title = document.createTextNode(item.title);
 
@@ -65,10 +69,10 @@ const TodoListItem = (item, checkboxes) => {
   /* todoItem 체크박스 */
   const checkbox = document.createElement("input");
   checkbox.setAttribute("type", "checkbox");
-  checkbox.setAttribute("class", "todolist__item--checkbox");
+  checkbox.setAttribute("class", "todo-item--checkbox");
   checkbox.setAttribute("id", `${item.title}`);
   if (item.done) {
-    checkbox.setAttribute("checked", true);
+    checkbox.checked = true;
     /* item이 done일때 취소선 스타일링 */
     todoInfoLink.style.textDecoration = "line-through";
   }
@@ -81,13 +85,13 @@ const TodoListItem = (item, checkboxes) => {
 
     window.location.reload();
   };
-
   checkbox.addEventListener("click", handleToggleDone);
 
-  checkboxes.push(checkbox);
+  // checkboxes.push(checkbox); // 왜 넣어진거지?
+
   todoInfoLink.addEventListener("click", function (event) {
     event.preventDefault();
-    linkTo(todoInfoLink.getAttribute("href"));
+    linkTo(todoInfoLink.getAttribute("href")!);
   });
 
   todoInfoLink.appendChild(title);

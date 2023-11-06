@@ -1,12 +1,17 @@
 // 할일 목록
-import { linkTo } from "../../Router.js";
-import Button from "../../layout/Button.js";
-import Footer from "../../layout/Footer.js";
-import HandleDataFilter from "../../layout/HandleDataFilter.js";
-import Header from "../../layout/Header.js";
-import TodoListItem from "./TodoListItem.js";
-import BASE_URL from "../../../api/BaseUrl.js";
-import HandleDataAll from "../../layout/HandleDataAll.js";
+import axios from "axios";
+import BASE_URL from "../../api/BaseUrl";
+import Button from "../../layout/Button";
+import Footer from "../../layout/Footer";
+import Header from "../../layout/Header";
+import HandleDataAll from "../../layout/HandleDataAll";
+import HandleDataFilter from "../../layout/HandleDataFilter";
+
+import TodoListItem from "./TodoListItem";
+import { linkTo } from "../../Router";
+
+import "./TodoList.css";
+import "../../global.css";
 
 const TodoList = async function () {
   const page = document.createElement("div");
@@ -17,7 +22,7 @@ const TodoList = async function () {
   contents.setAttribute("class", "todo-container");
 
   const checkList = document.createElement("div");
-  checkList.setAttribute("class", "todo-container__check-list");
+  checkList.setAttribute("class", "todo-container__controller");
 
   /* 필터버튼 */
 
@@ -69,7 +74,7 @@ const TodoList = async function () {
   const completedAll = document.createElement("button");
   completedAll.setAttribute("class", "completeAll");
   completedAll.innerHTML = "✅ 전체완료";
-  completedAll.setAttribute("data-done", 0);
+  completedAll.setAttribute("data-done", "0");
 
   // 전체삭제 버튼텍스트
   const deleteAll = document.createElement("button");
@@ -84,7 +89,7 @@ const TodoList = async function () {
   // 서버 통신 로직
   // try {
   let response;
-  response = await axios("http://localhost:33088/api/todolist");
+  response = await axios<TodoListResponse>(`${BASE_URL}`);
   const todosResponse = response.data?.items;
   // 중요 아이템 리스트 컨테이너
   const importantList = document.createElement("ul");
@@ -93,10 +98,12 @@ const TodoList = async function () {
   const normalList = document.createElement("ul");
   normalList.setAttribute("class", "todolist");
 
-  const checkboxList = [];
+  // 인풋엘리먼트 체크박스를 원소로 같는 배열
+  const checkboxList: checkboxTypeI[] = [];
+
   todosResponse.forEach((item) => {
     /* todoItem 초기렌더링 */
-    const li = TodoListItem(item, checkboxList);
+    const li = TodoListItem(item);
     if (item.important) {
       importantList.style.display = "block";
       importantList.appendChild(li);
@@ -118,22 +125,30 @@ const TodoList = async function () {
   // 아이템 전체 완료 함수
   const handleAllDone = () => {
     /* 전체완료 체크박스 토글링 */
-    let toggleCompletAll = Number(completedAll.dataset.done);
+    let toggleCompletAll =
+      Number(completedAll.dataset.done) === 0 ? false : true;
 
-    toggleCompletAll = !toggleCompletAll;
     checkboxList.forEach((checkbox) => {
-      checkbox.checked = toggleCompletAll;
-      const todoInfoLink = checkbox.nextSibling;
-      todoInfoLink.style.textDecoration = checkbox.checked
-        ? "line-through"
-        : "none";
-      todosResponse.forEach(async (item) => {
-        return await axios.patch(`${BASE_URL}/${item._id}`, {
-          done: toggleCompletAll,
+      if (checkbox.checked !== toggleCompletAll) {
+        checkbox.checked = toggleCompletAll; // 눌려진 체크박스 인풋요소가 상태가 다르면 업데이트
+        const todoInfoLink = checkbox.nextSibling;
+        todoInfoLink.style.textDecoration = checkbox.checked
+          ? "line-through"
+          : "none";
+        // http 요청
+        todosResponse.forEach(async (item) => {
+          return await axios.patch(`${BASE_URL}/${item._id}`, {
+            done: toggleCompletAll, // true
+          });
         });
-      });
+      }
+
+      toggleCompletAll = !toggleCompletAll;
+      // 전체완료 버튼 data-done 속성 바꾸기
+      completedAll.dataset.done = toggleCompletAll ? "1" : "0";
     });
   };
+
   completedAll.addEventListener("click", handleAllDone);
 
   // 아이템 전체 삭제 함수
