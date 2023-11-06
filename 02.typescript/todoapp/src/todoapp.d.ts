@@ -10,7 +10,7 @@ export interface TodoItem {
   updatedAt: string;
 }
 
-interface TodoListResponse {
+export interface TodoListResponse {
   ok: number;
   items: TodoItem[];
   pagination: {
@@ -21,7 +21,14 @@ interface TodoListResponse {
   };
 }
 
-interface TodoResponse {
+export interface TodoResponse {
   ok: number;
   item: TodoItem;
+}
+
+export interface TodoErrorResponse {
+  ok: number;
+  error: {
+    message: string;
+  };
 }
