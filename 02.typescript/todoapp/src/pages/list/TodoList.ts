@@ -100,10 +100,9 @@ const TodoList = async function () {
   // 인풋엘리먼트 체크박스를 원소로 같는 배열
   const checkboxList: checkboxTypeI[] = [];
 
-  console.log(checkboxList);
   todosResponse.forEach((item) => {
     /* todoItem 초기렌더링 */
-    const li = TodoListItem(item, checkboxList);
+    const li = TodoListItem(item);
     if (item.important) {
       importantList.style.display = "block";
       importantList.appendChild(li);
