@@ -3,6 +3,8 @@ import Header from "../../layout/Header";
 import Footer from "../../layout/Footer";
 import { linkTo } from "../../Router";
 import BASE_URL from "../../api/BaseUrl";
+import axios from "axios";
+import { TodoItem } from "../../todoapp";
 
 // 할일 수정
 const TodoUpdate = async function () {
@@ -25,7 +27,7 @@ const TodoUpdate = async function () {
   const form = document.createElement("form");
   form.setAttribute("id", "todo-form");
 
-  const handleEdit = async (e) => {
+  const handleEdit = async (e: SubmitEvent) => {
     e.preventDefault();
 
     const body = {
@@ -35,7 +37,7 @@ const TodoUpdate = async function () {
       important: inputImportant.checked,
     };
 
-    const res = await axios.patch(`${BASE_URL}/${_id}`, body);
+    const res = await axios.patch<TodoItem>(`${BASE_URL}/${_id}`, body);
 
     if (res.status === 200) {
       alert("수정되었습니다");
@@ -50,39 +52,39 @@ const TodoUpdate = async function () {
   // Label
   const labelTitle = document.createElement("label");
   labelTitle.setAttribute("for", "input-title");
-  labelTitle.classList = "label-title";
+  labelTitle.classList.add("label-title");
   labelTitle.classList.add("register-label");
   labelTitle.innerText = "제목";
 
   const labelContent = document.createElement("label");
   labelContent.setAttribute("for", "textarea-content");
-  labelContent.classList = "label-content";
+  labelContent.classList.add("label-content");
   labelContent.classList.add("register-label");
   labelContent.innerText = "내용";
 
   const labelDeadline = document.createElement("label");
   labelDeadline.setAttribute("for", "input-deadline");
-  labelDeadline.classList = "label-deadline";
+  labelDeadline.classList.add("label-deadline");
   labelDeadline.classList.add("register-label");
   labelDeadline.innerText = "완료날짜";
 
   const labelImportant = document.createElement("label");
   labelImportant.setAttribute("for", "input-important");
-  labelImportant.classList = "label-important";
+  labelImportant.classList.add("label-important");
   labelImportant.classList.add("register-label");
   labelImportant.innerText = "중요";
 
   // Input
   const inputTitle = document.createElement("input");
   inputTitle.setAttribute("id", "input-title");
-  inputTitle.setAttribute("required", true);
+  inputTitle.setAttribute("required", "true");
   inputTitle.classList.add("register-input");
   inputTitle.type = "text";
   inputTitle.value = title;
 
   const textareaContent = document.createElement("textarea");
   textareaContent.setAttribute("id", "textarea-content");
-  textareaContent.setAttribute("required", true);
+  textareaContent.setAttribute("required", "true");
   textareaContent.value = content;
 
   const inputDeadline = document.createElement("input");
