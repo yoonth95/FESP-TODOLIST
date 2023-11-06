@@ -4,6 +4,8 @@ import Footer from "../../layout/Footer";
 import Button from "../../layout/Button";
 
 import BASE_URL from "../../api/BaseUrl";
+import { TodoItem } from "../../todoapp";
+import axios from "axios";
 
 // 들어가야할 요소
 // 이전 버튼(button)
@@ -21,7 +23,7 @@ const TodoRegist = function () {
   const form = document.createElement("form");
   form.setAttribute("id", "todo-form");
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event: SubmitEvent) => {
     event.preventDefault();
 
     const body = {
@@ -33,7 +35,7 @@ const TodoRegist = function () {
     };
 
     // http
-    const res = await axios.post(`${BASE_URL}`, body);
+    const res = await axios.post<TodoItem>(`${BASE_URL}`, body);
 
     if (res.status === 200) {
       alert("등록이 정상적으로 완료되었습니다.");
@@ -46,41 +48,41 @@ const TodoRegist = function () {
   form.addEventListener("submit", handleSubmit);
 
   // Label
-  const labelTitle = document.createElement("label");
+  const labelTitle: HTMLLabelElement = document.createElement("label");
   labelTitle.setAttribute("for", "input-title");
-  labelTitle.classList = "label-title";
+  labelTitle.classList.add("label-title");
   labelTitle.classList.add("register-label");
   labelTitle.innerText = "제목";
 
   const labelContent = document.createElement("label");
   labelContent.setAttribute("for", "textarea-content");
-  labelContent.classList = "label-content";
+  labelContent.classList.add("label-content");
   labelContent.classList.add("register-label");
   labelContent.innerText = "내용";
 
   const labelDeadline = document.createElement("label");
   labelDeadline.setAttribute("for", "input-deadline");
-  labelDeadline.classList = "label-deadline";
+  labelDeadline.classList.add("label-deadline");
   labelDeadline.classList.add("register-label");
   labelDeadline.innerText = "완료날짜";
 
   const labelImportant = document.createElement("label");
   labelImportant.setAttribute("for", "input-important");
-  labelImportant.classList = "label-important";
+  labelImportant.classList.add("label-important");
   labelImportant.classList.add("register-label");
   labelImportant.innerText = "중요";
 
   // Input
   const inputTitle = document.createElement("input");
   inputTitle.setAttribute("id", "input-title");
-  inputTitle.setAttribute("required", true);
+  inputTitle.setAttribute("required", "true");
   inputTitle.classList.add("register-input");
   inputTitle.type = "text";
   inputTitle.placeholder = "할일의 제목을 입력하세요";
 
   const textareaContent = document.createElement("textarea");
   textareaContent.setAttribute("id", "textarea-content");
-  textareaContent.setAttribute("required", true);
+  textareaContent.setAttribute("required", "true");
   textareaContent.placeholder = "할일의 상세 내용을 입력하세요";
 
   const inputDeadline = document.createElement("input");
