@@ -1,109 +1,104 @@
-// 할일 등록
-import Header from "../../layout/Header.js";
-import Footer from "../../layout/Footer.js";
-import Button from "../../layout/Button.js";
-import BASE_URL from "../../../api/BaseUrl.js";
+import Button from "../../layout/Button";
+import Header from "../../layout/Header";
+import Footer from "../../layout/Footer";
+import { linkTo } from "../../Router";
+import BASE_URL from "../../api/BaseUrl";
+import axios from "axios";
+import { TodoItem } from "../../todoapp";
 
-// 들어가야할 요소
-// 이전 버튼(button)
-// 양식 - title, content, Deadline, importantCheckBox
-// 전송 버튼(submit)
-
-const TodoRegist = function () {
+// 할일 수정
+const TodoUpdate = async function () {
   const page = document.createElement("div");
   page.setAttribute("id", "page");
 
   // 전체 등록 최상위 박스
   const contents = document.createElement("div");
   contents.setAttribute("id", "contents");
+
+  // params 받아오기
+  const params = new URLSearchParams(location.search);
+  const _id = params.get("_id");
+
+  // axios 가져오기
+  const res = await axios(`${BASE_URL}/${_id}`);
+  const { deadline, important, title, content } = res.data.item;
+
   // 양식 폼 박스
   const form = document.createElement("form");
   form.setAttribute("id", "todo-form");
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  const handleEdit = async (e: SubmitEvent) => {
+    e.preventDefault();
 
     const body = {
       title: inputTitle.value,
       content: textareaContent.value,
       deadline: inputDeadline.value,
       important: inputImportant.checked,
-      done: false,
     };
 
-    // http
-    const res = await axios.post(`${BASE_URL}`, body);
+    const res = await axios.patch<TodoItem>(`${BASE_URL}/${_id}`, body);
 
     if (res.status === 200) {
-      alert("등록이 정상적으로 완료되었습니다.");
-      window.location.pathname = "/";
+      alert("수정되었습니다");
+      window.location.href = `/info?_id=${_id}`;
     } else if (res.status === 500) {
       alert("서버에 오류가 발생했습니다. 나중에 다시 시도하세요");
     }
   };
 
-  form.addEventListener("submit", handleSubmit);
+  form.addEventListener("submit", handleEdit);
 
   // Label
   const labelTitle = document.createElement("label");
   labelTitle.setAttribute("for", "input-title");
-  labelTitle.classList = "label-title";
+  labelTitle.classList.add("label-title");
   labelTitle.classList.add("register-label");
   labelTitle.innerText = "제목";
 
   const labelContent = document.createElement("label");
   labelContent.setAttribute("for", "textarea-content");
-  labelContent.classList = "label-content";
+  labelContent.classList.add("label-content");
   labelContent.classList.add("register-label");
   labelContent.innerText = "내용";
 
   const labelDeadline = document.createElement("label");
   labelDeadline.setAttribute("for", "input-deadline");
-  labelDeadline.classList = "label-deadline";
+  labelDeadline.classList.add("label-deadline");
   labelDeadline.classList.add("register-label");
   labelDeadline.innerText = "완료날짜";
 
   const labelImportant = document.createElement("label");
   labelImportant.setAttribute("for", "input-important");
-  labelImportant.classList = "label-important";
+  labelImportant.classList.add("label-important");
   labelImportant.classList.add("register-label");
   labelImportant.innerText = "중요";
 
   // Input
   const inputTitle = document.createElement("input");
   inputTitle.setAttribute("id", "input-title");
-  inputTitle.setAttribute("required", true);
+  inputTitle.setAttribute("required", "true");
   inputTitle.classList.add("register-input");
   inputTitle.type = "text";
-  inputTitle.placeholder = "할일의 제목을 입력하세요";
+  inputTitle.value = title;
 
   const textareaContent = document.createElement("textarea");
   textareaContent.setAttribute("id", "textarea-content");
-  textareaContent.setAttribute("required", true);
-  textareaContent.placeholder = "할일의 상세 내용을 입력하세요";
+  textareaContent.setAttribute("required", "true");
+  textareaContent.value = content;
 
   const inputDeadline = document.createElement("input");
   inputDeadline.setAttribute("id", "input-deadline");
   inputDeadline.classList.add("register-input");
   inputDeadline.type = "date";
-  let date = new Date();
-  let year = date.getFullYear();
-  let month = date.getMonth() + 1;
-  let day = date.getDate();
-  // 날짜 변환
-  let format =
-    year +
-    "-" +
-    ("00" + month.toString()).slice(-2) +
-    "-" +
-    ("00" + day.toString()).slice(-2);
-  inputDeadline.value = format;
+  inputDeadline.value = deadline;
 
   const inputImportant = document.createElement("input");
   inputImportant.setAttribute("id", "input-important");
   inputImportant.classList.add("register-input");
   inputImportant.type = "checkbox";
   inputImportant.name = "input-important";
+  inputImportant.checked = important;
 
   // span -> 별표 아이콘
   const spanImportant = document.createElement("span");
@@ -143,21 +138,21 @@ const TodoRegist = function () {
   // 등록/취소 버튼 박스
   const activeEl = document.createElement("div");
   activeEl.setAttribute("class", "active-box");
-  activeEl.appendChild(Button("submit-button", "submit", "등록"));
+  activeEl.appendChild(Button("submit-button", "submit", "수정완료"));
   activeEl.appendChild(
     Button("cancel-button", "button", "취소", () => {
-      window.location.pathname = "/";
+      linkTo(`/info?_id=${_id}`);
     })
   );
   form.appendChild(activeEl);
 
   contents.appendChild(form);
 
-  page.appendChild(Header("새로운 할일 등록하기"));
+  page.appendChild(Header("수정하기"));
   page.appendChild(contents);
   page.appendChild(Footer());
 
   return page;
 };
 
-export default TodoRegist;
+export default TodoUpdate;

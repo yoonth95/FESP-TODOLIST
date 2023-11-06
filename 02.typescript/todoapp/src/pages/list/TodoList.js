@@ -1,12 +1,13 @@
 // 할일 목록
-import { linkTo } from "../../Router.js";
-import Button from "../../layout/Button.js";
-import Footer from "../../layout/Footer.js";
-import HandleDataFilter from "../../layout/HandleDataFilter.js";
-import Header from "../../layout/Header.js";
-import TodoListItem from "./TodoListItem.js";
-import BASE_URL from "../../../api/BaseUrl.js";
-import HandleDataAll from "../../layout/HandleDataAll.js";
+import { linkTo } from "../../Router";
+import Button from "../../layout/Button";
+import Footer from "../../layout/Footer";
+import HandleDataFilter from "../../layout/HandleDataFilter";
+import Header from "../../layout/Header";
+import TodoListItem from "./TodoListItem";
+import HandleDataAll from "../../layout/HandleDataAll";
+
+import BASE_URL from "../../api/BaseUrl";
 
 const TodoList = async function () {
   const page = document.createElement("div");

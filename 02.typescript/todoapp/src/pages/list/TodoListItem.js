@@ -1,6 +1,7 @@
-import { linkTo } from "../../Router.js";
-import BASE_URL from "../../../api/BaseUrl.js";
-import HandleDataAll from "../../layout/HandleDataAll.js";
+import { linkTo } from "../../Router";
+import HandleDataAll from "../../layout/HandleDataAll";
+
+import BASE_URL from "../../api/BaseUrl";
 
 const TodoListItem = (item, checkboxes) => {
   const li = document.createElement("li");
