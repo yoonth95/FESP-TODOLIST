@@ -1,0 +1,36 @@
+/* info */
+
+#contents {
+  width: 1024px;
+  height: 500px;
+  position: relative;
+}
+
+#detail-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  width: 100%;
+  margin: 20px 0;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  position: relative;
+}
+
+/*내용 박스*/
+.content-box {
+  height: 200px;
+}
+
+/*내용 박스 안 text*/
+#detail-content {
+  line-height: 32px;
+}
+
+/*라벨*/
+.detail-label {
+  font-size: 20px;
+  font-weight: bold;
+}

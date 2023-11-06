@@ -1,9 +1,15 @@
 // 할일 등록
+import axios from "axios";
+
 import Header from "../../layout/Header";
 import Footer from "../../layout/Footer";
 import Button from "../../layout/Button";
+
 import BASE_URL from "../../api/BaseUrl";
+
 import { linkTo } from "../../Router";
+
+import "./TodoInfo.css";
 
 const TodoInfo = async function () {
   // 상세 할일 페이지 id
@@ -23,13 +29,13 @@ const TodoInfo = async function () {
   // Label
   const labelDeadline = document.createElement("label");
   labelDeadline.setAttribute("for", "input-deadline");
-  labelDeadline.classList = "label-deadline";
-  labelDeadline.classList.add("register-label");
+  labelDeadline.setAttribute("class", "label-deadline");
+  labelDeadline.classList.add("detail-label");
   labelDeadline.innerText = "완료날짜";
 
   const labelImportant = document.createElement("label");
   labelImportant.setAttribute("for", "input-important");
-  labelImportant.classList.add("register-label");
+  labelImportant.classList.add("detail-label");
   labelImportant.innerText = "중요";
 
   // textbody
@@ -62,7 +68,7 @@ const TodoInfo = async function () {
 
   // content div박스
   const contentEl = document.createElement("div");
-  contentEl.setAttribute("class", "detail-content-box");
+  contentEl.setAttribute("class", "content-box");
   // contentEl.appendChild(labelContent);
   contentEl.appendChild(detailContent);
   detailContainer.appendChild(contentEl);

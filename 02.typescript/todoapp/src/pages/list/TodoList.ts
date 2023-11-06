@@ -1,8 +1,6 @@
 // 할일 목록
 import axios from "axios";
-
 import BASE_URL from "../../api/BaseUrl";
-
 import Button from "../../layout/Button";
 import Footer from "../../layout/Footer";
 import Header from "../../layout/Header";
@@ -11,6 +9,9 @@ import HandleDataFilter from "../../layout/HandleDataFilter";
 
 import TodoListItem from "./TodoListItem";
 import { linkTo } from "../../Router";
+
+import "./TodoList.css";
+import "../../global.css";
 
 const TodoList = async function () {
   const page = document.createElement("div");
@@ -21,7 +22,7 @@ const TodoList = async function () {
   contents.setAttribute("class", "todo-container");
 
   const checkList = document.createElement("div");
-  checkList.setAttribute("class", "todo-container__check-list");
+  checkList.setAttribute("class", "todo-container__controller");
 
   /* 필터버튼 */
 
