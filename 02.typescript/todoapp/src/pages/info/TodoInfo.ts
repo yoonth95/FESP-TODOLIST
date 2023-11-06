@@ -10,6 +10,7 @@ import BASE_URL from "../../api/BaseUrl";
 import { linkTo } from "../../Router";
 
 import "./TodoInfo.css";
+import "../../global.css";
 
 const TodoInfo = async function () {
   // 상세 할일 페이지 id
