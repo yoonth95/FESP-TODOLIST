@@ -3,7 +3,9 @@ interface TodoItem {
   _id: number;
   title: string;
   content: string;
-  done: true;
+  done: boolean;
+  important: boolean;
+  deadline: string;
   createdAt: string;
   updatedAt: string;
 }
