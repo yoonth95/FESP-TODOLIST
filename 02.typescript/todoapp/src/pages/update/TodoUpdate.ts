@@ -4,7 +4,7 @@ import Footer from "../../layout/Footer";
 import { linkTo } from "../../Router";
 import BASE_URL from "../../api/BaseUrl";
 import axios from "axios";
-import { TodoItem } from "../../todoapp";
+import { TodoResponse, TodoErrorResponse } from "../../todoapp";
 
 // 할일 수정
 const TodoUpdate = async function () {
@@ -37,7 +37,10 @@ const TodoUpdate = async function () {
       important: inputImportant.checked,
     };
 
-    const res = await axios.patch<TodoItem>(`${BASE_URL}/${_id}`, body);
+    const res = await axios.patch<TodoResponse | TodoErrorResponse>(
+      `${BASE_URL}/${_id}`,
+      body
+    );
 
     if (res.status === 200) {
       alert("수정되었습니다");
