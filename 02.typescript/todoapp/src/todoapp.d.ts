@@ -21,6 +21,13 @@ interface TodoListResponse {
   };
 }
 
+export interface TodoErrorResponse {
+  ok: number;
+  error: {
+    message: string;
+  };
+}
+
 interface TodoResponse {
   ok: number;
   item: TodoItem;
