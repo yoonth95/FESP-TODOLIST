@@ -1,23 +1,23 @@
-import TodoListItem from '../pages/list/TodoListItem.js';
+import TodoListItem from "../pages/list/TodoListItem";
 
 const HandleDataFilter = async function (className, data, value) {
   let result;
 
-  if (value === '!done') {
+  if (value === "!done") {
     result = data.filter((v) => !v.done);
-  } else if (value === 'done') {
+  } else if (value === "done") {
     result = data.filter((v) => v.done);
   } else {
     result = data.filter((v) => v[value]);
   }
 
-  const importantList = document.querySelector('.important-list');
+  const importantList = document.querySelector(".important-list");
   const elem = document.querySelector(className);
   const checkboxList = [];
 
-  const textElement = document.createElement('li');
-  textElement.setAttribute('class', 'todo-list-empty');
-  textElement.innerText = '일정이 없습니다 : )';
+  const textElement = document.createElement("li");
+  textElement.setAttribute("class", "todo-list-empty");
+  textElement.innerText = "일정이 없습니다 : )";
 
   while (elem.firstChild) {
     elem.removeChild(elem.firstChild);

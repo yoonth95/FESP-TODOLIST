@@ -1,9 +1,11 @@
+import axios from "axios";
+
 import { linkTo } from "../../Router";
 import HandleDataAll from "../../layout/HandleDataAll";
 
 import BASE_URL from "../../api/BaseUrl";
 
-const TodoListItem = (item, checkboxes) => {
+const TodoListItem = (item: TodoItem) => {
   const li = document.createElement("li");
   li.setAttribute("class", "todolist__item");
 
@@ -14,13 +16,11 @@ const TodoListItem = (item, checkboxes) => {
     "class",
     `todolist__item--important-button ${!item.important ? null : "fill"}`
   );
-  importantButton.addEventListener("click", () => {
-    importantButton.classList.toggle("fill");
-  });
 
   // 중요토글 함수
   const handleToggleImportant = async () => {
     let result;
+    importantButton.classList.toggle("fill");
 
     importantButton.classList.contains("fill")
       ? (result = true)
@@ -69,7 +69,7 @@ const TodoListItem = (item, checkboxes) => {
   checkbox.setAttribute("class", "todolist__item--checkbox");
   checkbox.setAttribute("id", `${item.title}`);
   if (item.done) {
-    checkbox.setAttribute("checked", true);
+    checkbox.checked = true;
     /* item이 done일때 취소선 스타일링 */
     todoInfoLink.style.textDecoration = "line-through";
   }
@@ -82,13 +82,13 @@ const TodoListItem = (item, checkboxes) => {
 
     window.location.reload();
   };
-
   checkbox.addEventListener("click", handleToggleDone);
 
-  checkboxes.push(checkbox);
+  // checkboxes.push(checkbox); // 왜 넣어진거지?
+
   todoInfoLink.addEventListener("click", function (event) {
     event.preventDefault();
-    linkTo(todoInfoLink.getAttribute("href"));
+    linkTo(todoInfoLink.getAttribute("href")!);
   });
 
   todoInfoLink.appendChild(title);
