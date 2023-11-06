@@ -10,6 +10,9 @@ import HandleDataFilter from "../../layout/HandleDataFilter";
 import TodoListItem from "./TodoListItem";
 import { linkTo } from "../../Router";
 
+import "./TodoList.css";
+import "../../global.css";
+
 const TodoList = async function () {
   const page = document.createElement("div");
   page.setAttribute("id", "page");
@@ -19,7 +22,7 @@ const TodoList = async function () {
   contents.setAttribute("class", "todo-container");
 
   const checkList = document.createElement("div");
-  checkList.setAttribute("class", "todo-container__check-list");
+  checkList.setAttribute("class", "todo-container__controller");
 
   /* 필터버튼 */
 
