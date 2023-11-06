@@ -1,5 +1,5 @@
 // 기본 타입 지정
-interface TodoItem {
+export interface TodoItem {
   _id: number;
   title: string;
   content: string;
