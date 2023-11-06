@@ -1,8 +1,6 @@
 // 할일 목록
 import axios from "axios";
-
 import BASE_URL from "../../api/BaseUrl";
-
 import Button from "../../layout/Button";
 import Footer from "../../layout/Footer";
 import Header from "../../layout/Header";

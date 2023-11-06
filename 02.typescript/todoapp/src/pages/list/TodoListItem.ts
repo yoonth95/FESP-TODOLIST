@@ -1,8 +1,8 @@
 import axios from "axios";
 
 import { linkTo } from "../../Router";
-import HandleDataAll from "../../layout/HandleDataAll";
 
+import HandleDataAll from "../../layout/HandleDataAll";
 import BASE_URL from "../../api/BaseUrl";
 
 const TodoListItem = (item: TodoItem) => {

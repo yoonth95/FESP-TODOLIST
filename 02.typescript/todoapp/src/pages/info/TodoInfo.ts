@@ -1,8 +1,12 @@
 // 할일 등록
+import axios from "axios";
+
 import Header from "../../layout/Header";
 import Footer from "../../layout/Footer";
 import Button from "../../layout/Button";
+
 import BASE_URL from "../../api/BaseUrl";
+
 import { linkTo } from "../../Router";
 
 const TodoInfo = async function () {
@@ -23,7 +27,7 @@ const TodoInfo = async function () {
   // Label
   const labelDeadline = document.createElement("label");
   labelDeadline.setAttribute("for", "input-deadline");
-  labelDeadline.classList = "label-deadline";
+  labelDeadline.setAttribute("class", "label-deadline");
   labelDeadline.classList.add("register-label");
   labelDeadline.innerText = "완료날짜";
 
