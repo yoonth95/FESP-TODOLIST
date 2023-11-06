@@ -1,8 +1,9 @@
 // 할일 등록
-import Header from "../../layout/Header.js";
-import Footer from "../../layout/Footer.js";
-import Button from "../../layout/Button.js";
-import BASE_URL from "../../../api/BaseUrl.js";
+import Header from "../../layout/Header";
+import Footer from "../../layout/Footer";
+import Button from "../../layout/Button";
+
+import BASE_URL from "../../api/BaseUrl";
 
 // 들어가야할 요소
 // 이전 버튼(button)
