@@ -2,7 +2,7 @@ import React from 'react';
 
 interface ButtonProps {
   className: string;
-  type: "button" | "submit" | "reset";
+  type: "button" | "submit";
   text: string;
   handleClick?: () => void;
 }
