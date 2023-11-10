@@ -3,10 +3,10 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 import axios from "axios";
 
-import BASE_URL from "@/api/BaseUrl";
-import Button from "@/layout/Button";
-import Header from "@/layout/Header";
-import Footer from "@/layout/Footer";
+import BASE_URL from "../../api/BaseUrl";
+import Button from "../../layout/Button";
+import Header from "../../layout/Header";
+import Footer from "../../layout/Footer";
 
 import "./TodoUpdate.css";
 
@@ -14,9 +14,11 @@ const TodoUpdate: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const [inputTitle, setInputTitle] = useState('');
-  const [textareaContent, setTextareaContent] = useState('');
-  const [inputDeadline, setInputDeadline] = useState(new Date().toISOString().split('T')[0]);
+  const [inputTitle, setInputTitle] = useState("");
+  const [textareaContent, setTextareaContent] = useState("");
+  const [inputDeadline, setInputDeadline] = useState(
+    new Date().toISOString().split("T")[0]
+  );
   const [inputImportant, setInputImportant] = useState(false);
 
   // 쿼리스트링 값 가져오기
@@ -32,11 +34,10 @@ const TodoUpdate: React.FC = () => {
       setTextareaContent(res.content);
       setInputDeadline(res.deadline);
       setInputImportant(res.important);
-    }
+    };
 
     fetchData();
   }, [_id]);
-
 
   // 폼 submit
   const handleEdit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -62,20 +63,22 @@ const TodoUpdate: React.FC = () => {
     }
   };
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { id, value } = event.target;
-  
+
     switch (id) {
-      case 'update-input-title':
+      case "update-input-title":
         setInputTitle(value);
         break;
-      case 'update-textarea-content':
+      case "update-textarea-content":
         setTextareaContent(value);
         break;
-      case 'update-input-deadline':
+      case "update-input-deadline":
         setInputDeadline(value);
         break;
-      case 'update-input-important':
+      case "update-input-important":
         setInputImportant(!inputImportant);
         break;
       default:
@@ -85,37 +88,85 @@ const TodoUpdate: React.FC = () => {
 
   return (
     <div id="page">
-      <Header title={"수정하기"}/>
+      <Header title={"수정하기"} />
       <div id="update-contents">
         <form id="update-todo-form" onSubmit={handleEdit}>
           <div className="update-title-box">
-            <label htmlFor="update-input-title" className="label-title update-register-label">제목</label>
-            <input type="text" value={inputTitle} onChange={handleChange} id="update-input-title" className="update-register-input" required />
+            <label
+              htmlFor="update-input-title"
+              className="label-title update-register-label"
+            >
+              제목
+            </label>
+            <input
+              type="text"
+              value={inputTitle}
+              onChange={handleChange}
+              id="update-input-title"
+              className="update-register-input"
+              required
+            />
           </div>
           <div className="update-content-box">
-            <label htmlFor="update-textarea-content" className="update-label-content update-register-label">내용</label>
-            <textarea id="update-textarea-content" value={textareaContent} onChange={handleChange} required></textarea>
+            <label
+              htmlFor="update-textarea-content"
+              className="update-label-content update-register-label"
+            >
+              내용
+            </label>
+            <textarea
+              id="update-textarea-content"
+              value={textareaContent}
+              onChange={handleChange}
+              required
+            ></textarea>
           </div>
           <div className="update-deadline-box">
-            <label htmlFor="update-input-deadline" className="update-label-deadline update-register-label">완료날짜</label>
-            <input type="date" value={inputDeadline} onChange={handleChange} id="update-input-deadline" className="update-register-input" />
+            <label
+              htmlFor="update-input-deadline"
+              className="update-label-deadline update-register-label"
+            >
+              완료날짜
+            </label>
+            <input
+              type="date"
+              value={inputDeadline}
+              onChange={handleChange}
+              id="update-input-deadline"
+              className="update-register-input"
+            />
           </div>
           <div className="update-important-box">
-            <label htmlFor="update-input-important" className="update-label-important update-register-label">
+            <label
+              htmlFor="update-input-important"
+              className="update-label-important update-register-label"
+            >
               중요
-              <input type="checkbox" checked={inputImportant} onChange={handleChange} id="update-input-important" className="update-register-input" name="input-important" />
+              <input
+                type="checkbox"
+                checked={inputImportant}
+                onChange={handleChange}
+                id="update-input-important"
+                className="update-register-input"
+                name="input-important"
+              />
               <span className="update-check-true"></span>
             </label>
           </div>
           <div className="update-active-box">
             <Button className="submit-button" type="submit" text="수정완료" />
-            <Button className="cancel-button" type="button" text="취소" handleClick={() => navigate(`/info?_id=${_id}`)} />
+            <Button
+              className="cancel-button"
+              type="button"
+              text="취소"
+              handleClick={() => navigate(`/info?_id=${_id}`)}
+            />
           </div>
         </form>
       </div>
       <Footer />
     </div>
-  )
+  );
 };
 
 export default TodoUpdate;

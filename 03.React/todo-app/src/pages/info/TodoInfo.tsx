@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
-import BASE_URL from "@/api/BaseUrl";
-import Button from "@/layout/Button";
+import BASE_URL from "../../api/BaseUrl";
+import Button from "../../layout/Button";
 import "./TodoInfo.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";

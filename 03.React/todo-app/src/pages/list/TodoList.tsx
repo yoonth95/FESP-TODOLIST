@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-import BaseUrl from "@/api/BaseUrl";
+import BaseUrl from "../../api/BaseUrl";
 import TodoListItem from "./TodoListItem";
-import useDataFilter from "@/hooks/useDataFilter";
+import useDataFilter from "../../hooks/useDataFilter";
 
 const TodoList = () => {
   // const { _id } = useParams();
