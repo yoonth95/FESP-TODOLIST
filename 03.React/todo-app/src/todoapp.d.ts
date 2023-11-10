@@ -10,6 +10,8 @@ interface TodoItem {
   updatedAt: string;
 }
 
+type TodoList = TodoItem[];
+
 interface TodoListResponse {
   ok: number;
   items: TodoItem[];
@@ -29,7 +31,7 @@ interface TodoErrorResponse {
 }
 
 interface TodoResponse {
-  ok: number;
+  ok?: number;
   item: TodoItem;
 }
 
