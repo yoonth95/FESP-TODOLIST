@@ -5,6 +5,11 @@
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "module": "ESNext",
     "skipLibCheck": true,
+    /*상대경로 설정*/
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    },
 
     /* Javascript Support(자바스크립트관련 속성 추가)*/
     "allowJs": true, // js 모듈 사용 가능
