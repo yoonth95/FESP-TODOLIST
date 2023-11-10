@@ -1,15 +1,14 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import axios from 'axios';
-import "./TodoRegist.css";
-import BASE_URL from '../../api/BaseUrl';
+
+import BASE_URL from "@/api/BaseUrl";
 import Header from "@/layout/Header";
 import Footer from "@/layout/Footer";
 import Button from "@/layout/Button";
-import { useNavigate } from "react-router-dom";
 
-// import Header from "../../layout/Header";
-// import Footer from "../../layout/Footer";
-// import Button from "../../layout/Button";
+import "./TodoRegist.css";
 
 const TodoRegist: React.FC = () => {
   const navigate = useNavigate();
@@ -84,7 +83,7 @@ const TodoRegist: React.FC = () => {
           <div className="regist-important-box">
             <label htmlFor="regist-input-important" className="regist-label-important regist-register-label">
               중요
-              <input type="checkbox" id="regist-input-important" className="regist-register-input" name="input-important" />
+              <input type="checkbox" checked={inputImportant} onChange={handleChange} id="regist-input-important" className="regist-register-input" name="input-important" />
               <span className="regist-check-true"></span>
             </label>
           </div>
