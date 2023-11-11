@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
@@ -18,7 +18,7 @@ const TodoList: React.FC = () => {
   const [todos, setTodos] = useState<TodoList>([]);
 
   // get 요청
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     try {
       const response = await axios(`${BaseUrl}`);
       const todosResponse = response.data?.items || [];
@@ -39,8 +39,68 @@ const TodoList: React.FC = () => {
     } catch (error) {
       console.error("데이터를 가져오는데 에러가 발생했습니다.", error);
     }
+  }, []);
+
+  /* active-container 함수들 */
+  // 전체보기 필터 함수
+  const dataAllHanlder = (todosData: TodoList) => {
+    filterData(todosData, "");
   };
 
+  // 미완료, 완료, 중요 탭 필터버튼 함수
+  const dataFilterHandler = (todosData: TodoList, value: string) => {
+    filterData(todosData, value);
+  };
+
+  /* todo-container 함수들 */
+  // 전체 완료 함수
+  const allDoneHandler = async () => {
+    // 통신해서 서버에 저장하는 for문 돌리기 -> Promise.allSettled
+    try {
+      const allCheckRequset = await Promise.allSettled(
+        allTodos.map((item) =>
+          axios.patch(`${BaseUrl}/${item._id}`, { done: !item.done })
+        )
+      );
+
+      // 화면에 보여지는 애들 for문 돌리기
+      // todos, importantTodo => done 전부 !done 업데이트하기
+      const updatedTodos = allTodos.map((todo, idx) => {
+        if (allCheckRequset[idx].status === "fulfilled") {
+          // patch요청 성공하면 done 값 토글
+          return { ...todo, done: !todo.done };
+        } else {
+          return todo;
+        }
+      });
+
+      setAllTodos([...updatedTodos]); // 렌더링 이슈 : 서버요청은 정상, 렌더링은 새로고침해야 적용됨 ->
+    } catch (error) {
+      console.error("항목을 모두 완료시키는데 요청 오류 발생", error);
+    }
+  };
+
+  // 전체 삭제 함수
+  const allDeleteHandler = async () => {
+    try {
+      const deleteConfirm = confirm("삭제하시겠습니까?");
+      if (deleteConfirm) {
+        // 서버에서 모든 항목 삭제시키기
+        await Promise.allSettled(
+          allTodos.map((todo) => axios.delete(`${BaseUrl}/${todo._id}`))
+        );
+
+        // 화면에서 삭제된 항목 표시
+        setAllTodos([]);
+        setImportantTodos([]);
+        setTodos([]);
+      }
+    } catch (error) {
+      console.error("항목을 전체 삭제하는데 요청 오류 발생", error);
+    }
+  };
+
+  /* Item에 적용된 함수 */
   // 완료, 미완료 체크박스 함수
   const isCompleteCheck = async (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -131,63 +191,6 @@ const TodoList: React.FC = () => {
           important: true,
         });
       }
-    }
-  };
-
-  // 미완료, 완료, 중요 탭 필터버튼 함수
-  const dataFilterHandler = (todosData: TodoList, value: string) => {
-    filterData(todosData, value);
-  };
-
-  // 전체보기 필터 함수
-  const dataAllHanlder = (todosData: TodoList) => {
-    filterData(todosData, "");
-  };
-
-  // 전체 완료 함수
-  const allDoneHandler = async () => {
-    // 통신해서 서버에 저장하는 for문 돌리기 -> Promise.allSettled
-    try {
-      const allCheckRequset = await Promise.allSettled(
-        allTodos.map((item) =>
-          axios.patch(`${BaseUrl}/${item._id}`, { done: !item.done })
-        )
-      );
-
-      // 화면에 보여지는 애들 for문 돌리기
-      // todos, importantTodo => done 전부 !done 업데이트하기
-      const updatedTodos = allTodos.map((todo, idx) => {
-        if (allCheckRequset[idx].status === "fulfilled") {
-          // patch요청 성공하면 done 값 토글
-          return { ...todo, done: !todo.done };
-        } else {
-          return todo;
-        }
-      });
-
-      setAllTodos([...updatedTodos]); // 렌더링 이슈 : 서버요청은 정상, 렌더링은 새로고침해야 적용됨 -> 리렌더 이슈
-    } catch (error) {
-      console.error("항목을 모두 완료시키는데 요청 오류 발생", error);
-    }
-  };
-
-  // 전체 삭제 함수
-  const allDeleteHandler = async () => {
-    try {
-      const deleteConfirm = confirm("삭제하시겠습니까?");
-      if (deleteConfirm) {
-        // 서버에서 모든 항목 삭제시키기
-        await Promise.allSettled(
-          allTodos.map((todo) => axios.delete(`${BaseUrl}/${todo._id}`))
-        );
-
-        // 화면에서 삭제된 항목 표시
-        setAllTodos([]);
-        setImportantTodos([]);
-        setTodos([]);
-      }
-    } catch (error) {
-      console.error("항목을 전체 삭제하는데 요청 오류 발생", error);
     }
   };
 

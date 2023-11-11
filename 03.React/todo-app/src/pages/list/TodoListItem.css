@@ -40,6 +40,7 @@
   width: 21px;
   height: 21px;
   object-fit: cover;
+  border: none;
 }
 
 .fill {
