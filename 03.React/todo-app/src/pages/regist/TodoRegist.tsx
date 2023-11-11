@@ -3,10 +3,8 @@ import { useNavigate } from "react-router-dom";
 
 import axios from 'axios';
 
-import BASE_URL from "@/api/BaseUrl";
-import Header from "@/layout/Header";
-import Footer from "@/layout/Footer";
-import Button from "@/layout/Button";
+import BASE_URL from "../../api/BaseUrl";
+import Button from "../../layout/Button";
 
 import "./TodoRegist.css";
 
@@ -57,7 +55,7 @@ const TodoRegist: React.FC = () => {
 
     if (res.status === 200) {
       alert("등록이 정상적으로 완료되었습니다.");
-      window.location.pathname = "/";
+      navigate('/');
     } else if (res.status === 500) {
       alert("서버에 오류가 발생했습니다. 나중에 다시 시도하세요");
     }
@@ -65,7 +63,6 @@ const TodoRegist: React.FC = () => {
 
   return (
     <div id="page">
-      <Header title={"새로운 할일 등록하기"}/>
       <div id="regist-contents">
         <form id="regist-todo-form" onSubmit={handleSubmit}>
           <div className="regist-title-box">
@@ -93,7 +90,6 @@ const TodoRegist: React.FC = () => {
           </div>
         </form>
       </div>
-      <Footer />
     </div>
   );
 };
