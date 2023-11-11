@@ -20,10 +20,10 @@ const TodoRegist = function () {
   page.setAttribute("id", "page");
 
   // 전체 등록 최상위 박스
-  const contents = document.createElement("div");
+  const contents: HTMLDivElement = document.createElement("div");
   contents.setAttribute("id", "regist-contents");
   // 양식 폼 박스
-  const form = document.createElement("form");
+  const form: HTMLFormElement = document.createElement("form");
   form.setAttribute("id", "regist-todo-form");
 
   const handleSubmit = async (event: SubmitEvent) => {
@@ -60,47 +60,48 @@ const TodoRegist = function () {
   labelTitle.classList.add("regist-register-label");
   labelTitle.innerText = "제목";
 
-  const labelContent = document.createElement("label");
+  const labelContent: HTMLLabelElement = document.createElement("label");
   labelContent.setAttribute("for", "regist-textarea-content");
   labelContent.classList.add("regist-label-content");
   labelContent.classList.add("regist-register-label");
   labelContent.innerText = "내용";
 
-  const labelDeadline = document.createElement("label");
+  const labelDeadline: HTMLLabelElement = document.createElement("label");
   labelDeadline.setAttribute("for", "regist-input-deadline");
   labelDeadline.classList.add("regist-label-deadline");
   labelDeadline.classList.add("regist-register-label");
   labelDeadline.innerText = "완료날짜";
 
-  const labelImportant = document.createElement("label");
+  const labelImportant: HTMLLabelElement = document.createElement("label");
   labelImportant.setAttribute("for", "regist-input-important");
   labelImportant.classList.add("regist-label-important");
   labelImportant.classList.add("regist-register-label");
   labelImportant.innerText = "중요";
 
   // Input
-  const inputTitle = document.createElement("input");
+  const inputTitle: HTMLInputElement = document.createElement("input");
   inputTitle.setAttribute("id", "regist-input-title");
   inputTitle.setAttribute("required", "true");
   inputTitle.classList.add("regist-register-input");
   inputTitle.type = "text";
   inputTitle.placeholder = "할일의 제목을 입력하세요";
 
-  const textareaContent = document.createElement("textarea");
+  const textareaContent: HTMLTextAreaElement =
+    document.createElement("textarea");
   textareaContent.setAttribute("id", "regist-textarea-content");
   textareaContent.setAttribute("required", "true");
   textareaContent.placeholder = "할일의 상세 내용을 입력하세요";
 
-  const inputDeadline = document.createElement("input");
+  const inputDeadline: HTMLInputElement = document.createElement("input");
   inputDeadline.setAttribute("id", "regist-input-deadline");
   inputDeadline.classList.add("regist-register-input");
   inputDeadline.type = "date";
   let date = new Date();
-  let year = date.getFullYear();
-  let month = date.getMonth() + 1;
-  let day = date.getDate();
+  let year: number = date.getFullYear();
+  let month: number = date.getMonth() + 1;
+  let day: number = date.getDate();
   // 날짜 변환
-  let format =
+  let format: string =
     year +
     "-" +
     ("00" + month.toString()).slice(-2) +
@@ -108,40 +109,40 @@ const TodoRegist = function () {
     ("00" + day.toString()).slice(-2);
   inputDeadline.value = format;
 
-  const inputImportant = document.createElement("input");
+  const inputImportant: HTMLInputElement = document.createElement("input");
   inputImportant.setAttribute("id", "regist-input-important");
   inputImportant.classList.add("regist-register-input");
   inputImportant.type = "checkbox";
   inputImportant.name = "input-important";
 
   // span -> 별표 아이콘
-  const spanImportant = document.createElement("span");
+  const spanImportant: HTMLSpanElement = document.createElement("span");
   spanImportant.setAttribute("class", "regist-check-true");
 
   // Dom 추가
   // title div박스
-  const titleEl = document.createElement("div");
+  const titleEl: HTMLDivElement = document.createElement("div");
   titleEl.setAttribute("class", "regist-title-box");
   titleEl.appendChild(labelTitle);
   titleEl.appendChild(inputTitle);
   form.appendChild(titleEl);
 
   // content div박스
-  const contentEl = document.createElement("div");
+  const contentEl: HTMLDivElement = document.createElement("div");
   contentEl.setAttribute("class", "regist-content-box");
   contentEl.appendChild(labelContent);
   contentEl.appendChild(textareaContent);
   form.appendChild(contentEl);
 
   // deadline div박스
-  const deadlineEl = document.createElement("div");
+  const deadlineEl: HTMLDivElement = document.createElement("div");
   deadlineEl.setAttribute("class", "regist-deadline-box");
   deadlineEl.appendChild(labelDeadline);
   deadlineEl.appendChild(inputDeadline);
   form.appendChild(deadlineEl);
 
   // important div박스
-  const importantEl = document.createElement("div");
+  const importantEl: HTMLDivElement = document.createElement("div");
   importantEl.setAttribute("class", "regist-important-box");
   // label안에 input과 span추가
   labelImportant.appendChild(inputImportant);
@@ -150,7 +151,7 @@ const TodoRegist = function () {
   form.appendChild(importantEl);
 
   // 등록/취소 버튼 박스
-  const activeEl = document.createElement("div");
+  const activeEl: HTMLDivElement = document.createElement("div");
   activeEl.setAttribute("class", "regist-active-box");
   activeEl.appendChild(Button("submit-button", "submit", "등록"));
   activeEl.appendChild(
