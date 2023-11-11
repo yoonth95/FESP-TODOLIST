@@ -6,7 +6,9 @@ import BaseUrl from "../../api/BaseUrl";
 import TodoListItem from "./TodoListItem";
 import useDataFilter from "../../hooks/useDataFilter";
 
-const TodoList = () => {
+import "./TodoList.css"
+
+const TodoList: React.FC = () => {
   // const { _id } = useParams();
   const navigate = useNavigate();
   const { filterData } = useDataFilter([]); // 필터링 커스텀 훅
@@ -20,15 +22,18 @@ const TodoList = () => {
     try {
       const response = await axios(`${BaseUrl}`);
       const todosResponse = response.data?.items || [];
-      setAllTodos(todosResponse);
 
+      // 중요한 할 일과 일반 할 일을 분리
+      const newImportantTodos: TodoItem[] = [];
+      const newTodos: TodoItem[] = [];
       todosResponse.forEach((todo: TodoItem) => {
-        if (todo.important) {
-          setImportantTodos((prevTodo) => [...prevTodo, todo]);
-        } else {
-          setTodos((prevTodo) => [...prevTodo]);
-        }
-      });
+        todo.important ? newImportantTodos.push(todo) : newTodos.push(todo);
+      })
+
+      // 상태를 한 번에 업데이트
+      setAllTodos(todosResponse);
+      setImportantTodos(newImportantTodos);
+      setTodos(newTodos);
 
       filterData(todosResponse, "");
     } catch (error) {
@@ -37,23 +42,85 @@ const TodoList = () => {
   };
 
   // 완료, 미완료 체크박스 함수
-  const isCompleteCheck = (
+  const isCompleteCheck = async (
     e: React.ChangeEvent<HTMLInputElement>,
     important: boolean,
     _id: number
-  ): void => {
+  ) => {
     if (important) {
-      importantTodos.map((todo) => {
+      const newImportantTodos = importantTodos.map((todo) => {
         return todo._id === _id ? { ...todo, done: e.target.checked } : todo;
       });
+      setImportantTodos([...newImportantTodos]);
     } else {
-      todos.map((todo) => {
+      const newTodos = todos.map((todo) => {
         return todo._id === _id ? { ...todo, done: e.target.checked } : todo;
       });
+      setTodos([...newTodos]);
+    }
+
+    try {
+      await axios.patch(`${BaseUrl}/${_id}`, {
+        done: e.target.checked,
+      });
+    } catch (error) {
+      console.error(error);
     }
   };
 
-  // 미완료, 완료, 중요 필터버튼 함수
+  // 삭제
+  const deleteItem = async (_id: number, important: boolean) => {
+    const deleteResult = confirm("삭제하시겠습니까?");
+
+    if (deleteResult) {
+      if (important) {
+        const filterImportantTodo = importantTodos.filter(todo => todo._id !== _id);
+        setImportantTodos([...filterImportantTodo]);
+      } else {
+        const filterTodo = todos.filter(todo => todo._id !== _id);
+        setTodos([...filterTodo]);
+      }
+
+      await axios.delete(`${BaseUrl}/${_id}`);
+    }
+  }
+
+  // 중요 체크
+  const importantItem = async (btn: React.MouseEvent<HTMLButtonElement>, _id: number, important: boolean) => {
+    if (important) {
+      btn.currentTarget.classList.remove("fill");
+      // 중요 항목에서 뺀 것
+      const filterImportantTodos = importantTodos.filter(todo => todo._id !== _id);
+
+      // 뺀 항목을 중요하지 않는 항목에 추가
+      const popImportantTodo = importantTodos.find(todo => todo._id === _id);
+      if (popImportantTodo) {
+        const updateTodos = [...todos, {...popImportantTodo, important: false}];
+        setTodos([...updateTodos]);
+        setImportantTodos([...filterImportantTodos]);
+        await axios.patch(`${BaseUrl}/${_id}`, {
+          important: false,
+        });
+      }
+    } else {
+      btn.currentTarget.classList.add("fill");
+      // 중요하지 않은 항목에서 뺀 것
+      const filterTodos = todos.filter(todo => todo._id !== _id);
+
+      // 뺀 항목을 중요 항목에 추가
+      const popTodo = todos.find(todo => todo._id === _id);
+      if (popTodo) {
+        const updateImportantTodos = [...importantTodos, {...popTodo, important: true}];
+        setImportantTodos([...updateImportantTodos]);
+        setTodos([...filterTodos]);
+        await axios.patch(`${BaseUrl}/${_id}`, {
+          important: true,
+        });
+      }
+    }
+  }
+
+  // 미완료, 완료, 중요 탭 필터버튼 함수
   const dataFilterHandler = (todosData: TodoList, value: string) => {
     filterData(todosData, value);
   };
@@ -153,6 +220,8 @@ const TodoList = () => {
                 <TodoListItem
                   key={todo._id}
                   isCompleteCheck={isCompleteCheck}
+                  deleteItem={deleteItem}
+                  importantItem={importantItem}
                   todo={todo}
                 />
               );
@@ -165,6 +234,8 @@ const TodoList = () => {
                 <TodoListItem
                   key={todo._id}
                   isCompleteCheck={isCompleteCheck}
+                  deleteItem={deleteItem}
+                  importantItem={importantItem}
                   todo={todo}
                 />
               );
