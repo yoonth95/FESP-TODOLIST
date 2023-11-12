@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
+
 import BASE_URL from "../../api/BaseUrl";
 import Button from "../../layout/Button";
-import "./TodoInfo.css";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
+
+import "./TodoInfo.css";
 
 const TodoInfo: React.FC = () => {
   const location = useLocation();
@@ -19,20 +22,26 @@ const TodoInfo: React.FC = () => {
     deadline: "",
     important: false,
   });
+  // const [isImportant, setIsImportant] = useState(false);
+
   const starColor = todoData.important ? "var(--star-color)" : "inherit";
 
   useEffect(() => {
     const getDetailTodo = async () => {
-      const response: TodoItem = await axios(`${BASE_URL}/${_id}`);
+      const response = await axios(`${BASE_URL}/${_id}`);
+
+      const getDataItem = response.data.item;
+
+      console.log(getDataItem);
       setTodoData({
-        title: response.title,
-        content: response.content,
-        deadline: response.deadline,
-        important: response.important,
+        title: getDataItem.title,
+        content: getDataItem.content,
+        deadline: getDataItem.deadline,
+        important: getDataItem.important,
       });
 
-      if (todoData.important) {
-        // starIcon.style.color = "var(--star-color)";
+      if (getDataItem.important) {
+        // setIsImportant(true);
       }
     };
 
@@ -82,7 +91,12 @@ const TodoInfo: React.FC = () => {
             </label>
           </div>
           <div className="active-box">
-            <Button className="edit-button" type="button" text="수정" />
+            <Button
+              className="edit-button"
+              type="button"
+              text="수정"
+              handleClick={() => navigate("/edit")}
+            />
             <Button
               className="delete-button"
               type="button"
