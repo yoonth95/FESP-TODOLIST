@@ -14,7 +14,7 @@ const TodoListItem = (item: TodoItem) => {
 
   // TODO: 클릭하면 important 속성 변경
   /* todoItem 중요버튼 */
-  const importantButton = document.createElement("button");
+  const importantButton: HTMLButtonElement = document.createElement("button");
   importantButton.setAttribute(
     "class",
     `todo-item--important-button ${!item.important ? null : "fill"}`
@@ -43,12 +43,12 @@ const TodoListItem = (item: TodoItem) => {
 
   // TODO: 클릭하면 삭제
   /* todoItem 삭제 버튼 */
-  const deleteButton = document.createElement("a");
+  const deleteButton: HTMLAnchorElement = document.createElement("a");
   deleteButton.setAttribute("class", "todo-item--delete-button");
 
   // todo아이템 삭제
   const handleDelete = async () => {
-    const deleteResult = confirm("삭제하시겠습니까?");
+    const deleteResult: boolean = confirm("삭제하시겠습니까?");
 
     if (deleteResult) {
       await axios.delete(`${BASE_URL}/${item._id}`);
@@ -59,7 +59,7 @@ const TodoListItem = (item: TodoItem) => {
   deleteButton.addEventListener("click", handleDelete);
 
   /* todoItem 상세보기*/
-  const todoInfoLink = document.createElement("a");
+  const todoInfoLink: HTMLAnchorElement = document.createElement("a");
   todoInfoLink.setAttribute("href", `info?_id=${item._id}`);
   todoInfoLink.setAttribute("class", "todo-item--todoInfo-link");
   todoInfoLink.setAttribute("for", `${item.title}`);
@@ -67,7 +67,7 @@ const TodoListItem = (item: TodoItem) => {
 
   // TODO: 클릭하면 done 값 변경
   /* todoItem 체크박스 */
-  const checkbox = document.createElement("input");
+  const checkbox: HTMLInputElement = document.createElement("input");
   checkbox.setAttribute("type", "checkbox");
   checkbox.setAttribute("class", "todo-item--checkbox");
   checkbox.setAttribute("id", `${item.title}`);
@@ -87,9 +87,7 @@ const TodoListItem = (item: TodoItem) => {
   };
   checkbox.addEventListener("click", handleToggleDone);
 
-  // checkboxes.push(checkbox); // 왜 넣어진거지?
-
-  todoInfoLink.addEventListener("click", function (event) {
+  todoInfoLink.addEventListener("click", function (event: MouseEvent) {
     event.preventDefault();
     linkTo(todoInfoLink.getAttribute("href")!);
   });

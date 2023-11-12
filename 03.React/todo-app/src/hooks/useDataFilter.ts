@@ -7,15 +7,17 @@ const useDataFilter = (initialData: TodoList) => {
   const filterData = (data: TodoList, value: string) => {
     let result;
 
-    if (value === "!done") {
-      result = data.filter((v) => !v.done);
+    if (value === "all") {
+      result = data;
+    } else if (value === "!done") {
+      result = data.filter((val) => !val.done);
     } else if (value === "done") {
-      result = data.filter((v) => v.done);
-    } else {
-      result = data.filter((v) => v.important);
+      result = data.filter((val) => val.done);
+    } else if (value === "important") {
+      result = data.filter((val) => val.important);
     }
 
-    setFilteredData(result);
+    setFilteredData(result!);
   };
 
   return { filteredData, filterData };

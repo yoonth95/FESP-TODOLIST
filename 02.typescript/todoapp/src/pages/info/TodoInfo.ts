@@ -17,40 +17,40 @@ const TodoInfo = async function () {
   const params = new URLSearchParams(location.search);
   const _id = params.get("_id");
 
-  const page = document.createElement("div");
+  const page: HTMLDivElement = document.createElement("div");
   page.setAttribute("id", "page");
 
   // 전체 등록 최상위 박스
-  const contents = document.createElement("div");
+  const contents: HTMLDivElement = document.createElement("div");
   contents.setAttribute("id", "contents");
   // 디테일 컨테이너
-  const detailContainer = document.createElement("div");
+  const detailContainer: HTMLDivElement = document.createElement("div");
   detailContainer.setAttribute("id", "detail-container");
 
   // Label
-  const labelDeadline = document.createElement("label");
+  const labelDeadline: HTMLLabelElement = document.createElement("label");
   labelDeadline.setAttribute("for", "input-deadline");
   labelDeadline.setAttribute("class", "label-deadline");
   labelDeadline.classList.add("detail-label");
   labelDeadline.innerText = "완료날짜";
 
-  const labelImportant = document.createElement("label");
+  const labelImportant: HTMLLabelElement = document.createElement("label");
   labelImportant.setAttribute("for", "input-important");
   labelImportant.classList.add("detail-label");
   labelImportant.innerText = "중요";
 
   // textbody
-  const detailTitle = document.createElement("h3");
+  const detailTitle: HTMLHeadElement = document.createElement("h3");
   detailTitle.setAttribute("id", "detail-title");
 
-  const detailContent = document.createElement("p");
+  const detailContent: HTMLParagraphElement = document.createElement("p");
   detailContent.setAttribute("id", "detail-content");
 
-  const detailDeadline = document.createElement("p");
+  const detailDeadline: HTMLParagraphElement = document.createElement("p");
   detailDeadline.setAttribute("id", "detail-deadline");
 
   // 중요 체크박스
-  const detailImportant = document.createElement("span");
+  const detailImportant: HTMLSpanElement = document.createElement("span");
   detailImportant.setAttribute("id", "detail-important");
   const starIcon = document.createElement("i");
   starIcon.setAttribute("class", "fa-solid fa-star");
@@ -61,28 +61,28 @@ const TodoInfo = async function () {
 
   // Dom 추가
   // title div박스
-  const titleEl = document.createElement("div");
+  const titleEl: HTMLDivElement = document.createElement("div");
   titleEl.setAttribute("class", "title-box");
   // titleEl.appendChild(labelTitle);
   titleEl.appendChild(detailTitle);
   detailContainer.appendChild(titleEl);
 
   // content div박스
-  const contentEl = document.createElement("div");
+  const contentEl: HTMLDivElement = document.createElement("div");
   contentEl.setAttribute("class", "content-box");
   // contentEl.appendChild(labelContent);
   contentEl.appendChild(detailContent);
   detailContainer.appendChild(contentEl);
 
   // deadline div박스
-  const deadlineEl = document.createElement("div");
+  const deadlineEl: HTMLDivElement = document.createElement("div");
   deadlineEl.setAttribute("class", "deadline-box");
   deadlineEl.appendChild(labelDeadline);
   deadlineEl.appendChild(detailDeadline);
   detailContainer.appendChild(deadlineEl);
 
   // important div박스
-  const importantEl = document.createElement("div");
+  const importantEl: HTMLDivElement = document.createElement("div");
   importantEl.setAttribute("class", "important-box");
   labelImportant.appendChild(detailImportant);
   importantEl.appendChild(labelImportant);
@@ -90,7 +90,7 @@ const TodoInfo = async function () {
   detailContainer.appendChild(importantEl);
 
   // 수정/삭제 버튼 박스
-  const activeEl = document.createElement("div");
+  const activeEl: HTMLDivElement = document.createElement("div");
   activeEl.setAttribute("class", "active-box");
   activeEl.appendChild(
     Button("edit-button", "click", "수정", () => {
@@ -107,9 +107,14 @@ const TodoInfo = async function () {
   contents.appendChild(detailContainer);
 
   // 뒤로가기버튼
-  const backButton = Button("cancel-button", "button", "뒤로가기", () => {
-    linkTo("/");
-  });
+  const backButton: HTMLButtonElement = Button(
+    "cancel-button",
+    "button",
+    "뒤로가기",
+    () => {
+      linkTo("/");
+    }
+  );
 
   // http => 상세todo조회
   const getDetailTodo = async () => {
