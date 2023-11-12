@@ -1,7 +1,7 @@
 import { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-// import * as _ from 'lodash';
+import * as _ from 'lodash';
 
 import BaseUrl from "../../api/BaseUrl";
 import TodoListItem from "./TodoListItem";
@@ -96,58 +96,33 @@ const TodoList: React.FC = () => {
         // 서버에서 모든 항목 삭제시키기
 
         const mergeTodos = [...importantTodos, ...todos];
-        await Promise.allSettled(
-          mergeTodos.map((todo) => axios.delete(`${BaseUrl}/${todo._id}`))
-        );
 
-        setAllTodos([]);
-        setImportantTodos([]);
-        setTodos([]);
-
-
-        // 필터가 됐을 때,
-        // const mergeTodos = [...importantTodos, ...todos];
-        // if (filterView.status) {
-        //   await Promise.allSettled(
-        //     mergeTodos.map((todo) => axios.delete(`${BaseUrl}/${todo._id}`))
-        //   );
-        //   setAllTodos([]);
-        //   setImportantTodos([]);
-        //   setTodos([]);
-
-        //   // const diffTodos: TodoItem[] = _.differenceBy(mergeTodos, filteredData, '_id');
-
-        //   // const newImportantTodos: TodoItem[] = [];
-        //   // const newTodos: TodoItem[] = [];
-        //   // // if (filterView.value === '!done') {
-        //   // // }
-        //   // // if (filterView.value === 'done') {
+        // 필터 항목일 경우
+        if (filterView.status) {
+          await Promise.allSettled(
+            filteredData.map((todo) => axios.delete(`${BaseUrl}/${todo._id}`))
+          );
             
-        //   // // } 
-        //   // // if (filterView.value === 'important') {
-        //   // //   setImportantTodos([...newImportantTodos]);
-        //   // // }
-        //   // diffTodos.forEach(todo => {
-        //   //   if (todo.important) {
-        //   //     newImportantTodos.push(todo);
-        //   //   } else {
-        //   //     newTodos.push(todo);
-        //   //   }
-        //   // });
-
-        //   // setImportantTodos([...newImportantTodos]);
-        //   // setTodos([...newTodos]);
+          const diffTodos = _.differenceBy(mergeTodos, filteredData, '_id');
           
-
-        // } else {
-        //   await Promise.allSettled(
-        //     allTodos.map((todo) => axios.delete(`${BaseUrl}/${todo._id}`))
-        //   );
-        //   // 화면에서 삭제된 항목 표시
-        //   setAllTodos([]);
-        //   setImportantTodos([]);
-        //   setTodos([]);
-        // }
+          const newImportantTodos: TodoItem[] = [];
+          const newTodos: TodoItem[] = [];
+          diffTodos.forEach(todo => {
+            todo.important ? newImportantTodos.push(todo) : newTodos.push(todo);
+          });
+          filterData([], filterView.value, setFilterView);
+          setImportantTodos([...newImportantTodos]);
+          setTodos([...newTodos]);
+        } 
+        // 전체 항목일 경우
+        else {
+          await Promise.allSettled(
+            mergeTodos.map((todo) => axios.delete(`${BaseUrl}/${todo._id}`))
+          );
+          setAllTodos([]);
+          setImportantTodos([]);
+          setTodos([]);
+        }
       }
     } catch (error) {
       console.error("항목을 전체 삭제하는데 요청 오류 발생", error);
