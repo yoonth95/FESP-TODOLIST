@@ -5,8 +5,6 @@ import axios from "axios";
 
 import BASE_URL from "../../api/BaseUrl";
 import Button from "../../layout/Button";
-import Header from "../../layout/Header";
-import Footer from "../../layout/Footer";
 
 import "./TodoUpdate.css";
 
@@ -88,7 +86,6 @@ const TodoUpdate: React.FC = () => {
 
   return (
     <div id="page">
-      <Header title={"수정하기"} />
       <div id="update-contents">
         <form id="update-todo-form" onSubmit={handleEdit}>
           <div className="update-title-box">
@@ -164,7 +161,6 @@ const TodoUpdate: React.FC = () => {
           </div>
         </form>
       </div>
-      <Footer />
     </div>
   );
 };
