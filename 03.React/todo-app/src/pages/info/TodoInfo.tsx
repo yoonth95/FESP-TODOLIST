@@ -15,16 +15,14 @@ const TodoInfo: React.FC = () => {
   const navigate = useNavigate();
   const params = new URLSearchParams(location.search);
   const _id = params.get("_id");
-
   const [todoData, setTodoData] = useState({
     title: "",
     content: "",
     deadline: "",
     important: false,
   });
-  // const [isImportant, setIsImportant] = useState(false);
-
-  const starColor = todoData.important ? "var(--star-color)" : "inherit";
+  const [isImportant, setIsImportant] = useState(false);
+  const starColor = isImportant ? "var(--star-color)" : "var(--gray-color)";
 
   useEffect(() => {
     const getDetailTodo = async () => {
@@ -32,7 +30,6 @@ const TodoInfo: React.FC = () => {
 
       const getDataItem = response.data.item;
 
-      console.log(getDataItem);
       setTodoData({
         title: getDataItem.title,
         content: getDataItem.content,
@@ -41,7 +38,7 @@ const TodoInfo: React.FC = () => {
       });
 
       if (getDataItem.important) {
-        // setIsImportant(true);
+        setIsImportant(true);
       }
     };
 
@@ -60,9 +57,15 @@ const TodoInfo: React.FC = () => {
 
   return (
     <>
-      <button>뒤로가기</button>
+      <button
+        className="cancel-button common-button"
+        type="button"
+        onClick={() => navigate("/")}
+      >
+        뒤로가기
+      </button>
       <div id="contents">
-        <div id="detail-content">
+        <div id="detail-container">
           <div className="title-box">
             <h3 id="detail-title">{todoData.title}</h3>
           </div>
@@ -92,13 +95,13 @@ const TodoInfo: React.FC = () => {
           </div>
           <div className="active-box">
             <Button
-              className="edit-button"
+              className="edit-button common-button"
               type="button"
               text="수정"
-              handleClick={() => navigate("/edit")}
+              handleClick={() => navigate("/edit", { state: { isImportant } })}
             />
             <Button
-              className="delete-button"
+              className="edit-button common-button"
               type="button"
               text="삭제"
               handleClick={() => deleteDetailTodo()}
