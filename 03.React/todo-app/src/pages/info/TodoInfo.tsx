@@ -22,9 +22,7 @@ const TodoInfo: React.FC = () => {
     deadline: "",
     important: false,
   });
-  // const [isImportant, setIsImportant] = useState(false);
-
-  const starColor = todoData.important ? "var(--star-color)" : "inherit";
+  const [isImportant, setIsImportant] = useState("");
 
   useEffect(() => {
     const getDetailTodo = async () => {
@@ -40,9 +38,9 @@ const TodoInfo: React.FC = () => {
         important: getDataItem.important,
       });
 
-      if (getDataItem.important) {
-        // setIsImportant(true);
-      }
+      setIsImportant(
+        getDataItem.important ? "var(--star-color)" : "var(--gray-color)"
+      );
     };
 
     getDetailTodo();
@@ -60,9 +58,16 @@ const TodoInfo: React.FC = () => {
 
   return (
     <>
-      <button>뒤로가기</button>
+      <button
+        onClick={() => {
+          navigate("/");
+        }}
+        className="cancel-button common-button"
+      >
+        뒤로가기
+      </button>
       <div id="contents">
-        <div id="detail-content">
+        <div id="detail-container">
           <div className="title-box">
             <h3 id="detail-title">{todoData.title}</h3>
           </div>
@@ -85,20 +90,20 @@ const TodoInfo: React.FC = () => {
                 <FontAwesomeIcon
                   icon={faStar}
                   className="important"
-                  style={{ color: starColor }}
+                  style={{ color: isImportant }}
                 />
               </span>
             </label>
           </div>
           <div className="active-box">
             <Button
-              className="edit-button"
+              className="edit-button common-button"
               type="button"
               text="수정"
               handleClick={() => navigate("/edit")}
             />
             <Button
-              className="delete-button"
+              className="delete-button common-button"
               type="button"
               text="삭제"
               handleClick={() => deleteDetailTodo()}
