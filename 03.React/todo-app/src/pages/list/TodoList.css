@@ -27,6 +27,28 @@
   justify-content: space-between;
 }
 
+.filter-list2 {
+  display: flex;
+  justify-content: space-between;
+}
+
+.inputDiv {
+  position: relative;
+}
+
+.inputDiv input {
+  padding: 10px 45px 10px 10px;
+  font-size: 1.5rem;
+  width: 250px;
+}
+
+.searchBtn {
+  position: absolute;
+  right: 10px;
+  top: 13px;
+  font-size: 1.5rem;
+}
+
 /*전체 리스트 컨테이너*/
 .todo-container {
   width: 1024px;
