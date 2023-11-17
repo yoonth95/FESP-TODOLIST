@@ -3,13 +3,16 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import * as _ from 'lodash';
 
-import BaseUrl from "../../api/BaseUrl";
+import BaseUrl from "@api/BaseUrl";
 import TodoListItem from "./TodoListItem";
-import useDataFilter from "../../hooks/useDataFilter";
+import useDataFilter from "@hooks/useDataFilter";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCaretUp, faCaretDown, faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 
 import "./TodoList.css";
 
-const TodoList: React.FC = () => {
+const TodoList = () => {
   // const { _id } = useParams();
   const navigate = useNavigate();
 
@@ -19,17 +22,26 @@ const TodoList: React.FC = () => {
 
   const { filteredData, filterData } = useDataFilter(allTodos);
 
-  const [filterView, setFilterView] = useState({ value: 'all', status: false });
+  const [filterView, setFilterView] = useState<{ value: string, status: boolean }>({ value: 'all', status: false });
+
+  const [sortState, setSortState] = useState<boolean>(true);
+
+  const [searchValue, setSearchValue] = useState<string>('');
+  const [searchActive, setSearchActive] = useState<boolean>(false);
+  const [searchResults, setSearchResults] = useState<TodoItem[]>([]);
 
   // get 요청
   const fetchData = useCallback(async () => {
     try {
       const response = await axios(`${BaseUrl}`);
-      const todosResponse = response.data?.items || [];
+      const todosResponse: TodoItem[] = response.data?.items || [];
 
       // 중요한 할 일과 일반 할 일을 분리
       const newImportantTodos: TodoItem[] = [];
       const newTodos: TodoItem[] = [];
+      if (todosResponse.length) {
+        todosResponse.sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime());
+      }
       todosResponse.forEach((todo: TodoItem) => {
         todo.important ? newImportantTodos.push(todo) : newTodos.push(todo);
       });
@@ -149,9 +161,7 @@ const TodoList: React.FC = () => {
     }
 
     try {
-      await axios.patch(`${BaseUrl}/${_id}`, {
-        done: e.target.checked,
-      });
+      await axios.patch(`${BaseUrl}/${_id}`, { done: e.target.checked, });
     } catch (error) {
       console.error(error);
     }
@@ -163,9 +173,7 @@ const TodoList: React.FC = () => {
 
     if (deleteResult) {
       if (important) {
-        const filterImportantTodo = importantTodos.filter(
-          (todo) => todo._id !== _id
-        );
+        const filterImportantTodo = importantTodos.filter((todo) => todo._id !== _id);
         setImportantTodos([...filterImportantTodo]);
       } else {
         const filterTodo = todos.filter((todo) => todo._id !== _id);
@@ -185,17 +193,12 @@ const TodoList: React.FC = () => {
     if (important) {
       btn.currentTarget.classList.remove("fill");
       // 중요 항목에서 뺀 것
-      const filterImportantTodos = importantTodos.filter(
-        (todo) => todo._id !== _id
-      );
+      const filterImportantTodos = importantTodos.filter((todo) => todo._id !== _id);
 
       // 뺀 항목을 중요하지 않는 항목에 추가
       const popImportantTodo = importantTodos.find((todo) => todo._id === _id);
       if (popImportantTodo) {
-        const updateTodos = [
-          ...todos,
-          { ...popImportantTodo, important: false },
-        ];
+        const updateTodos = [...todos, { ...popImportantTodo, important: false }];
         setTodos([...updateTodos]);
         setImportantTodos([...filterImportantTodos]);
         await axios.patch(`${BaseUrl}/${_id}`, {
@@ -210,10 +213,7 @@ const TodoList: React.FC = () => {
       // 뺀 항목을 중요 항목에 추가
       const popTodo = todos.find((todo) => todo._id === _id);
       if (popTodo) {
-        const updateImportantTodos = [
-          ...importantTodos,
-          { ...popTodo, important: true },
-        ];
+        const updateImportantTodos = [...importantTodos, { ...popTodo, important: true }];
         setImportantTodos([...updateImportantTodos]);
         setTodos([...filterTodos]);
         await axios.patch(`${BaseUrl}/${_id}`, {
@@ -223,6 +223,42 @@ const TodoList: React.FC = () => {
     }
   };
 
+  // 업데이트 순으로 정렬
+  const sortHandler = () => {
+    setImportantTodos([...importantTodos.sort((a: TodoItem, b: TodoItem) => sortFunc(a, b))]);
+    setTodos([...todos.sort((a: TodoItem, b: TodoItem) => sortFunc(a, b))]);
+    filterData([...filteredData.sort((a: TodoItem, b: TodoItem) => sortFunc(a, b))], filterView.value, setFilterView);
+    setSortState(!sortState);
+  }
+
+  const sortFunc = (a: TodoItem, b: TodoItem) => {
+    const desc = new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime();
+    const asc = new Date(a.updatedAt).getTime() - new Date(b.updatedAt).getTime();
+    return !sortState ? desc: asc;
+  }
+
+  // 검색
+  const searchHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const searchValue = e.target.value;
+    setSearchValue(searchValue);
+
+    if (searchValue) {
+      setSearchActive(true);
+      let searchTodo;
+  
+      if (filterView.status) {
+        searchTodo = filteredData.filter((todo) => todo.title.includes(searchValue));
+      } else {
+        const mergeTodos = [...importantTodos, ...todos];
+        searchTodo = mergeTodos.filter((todo) => todo.title.includes(searchValue));
+      }
+  
+      setSearchResults(searchTodo);
+    } else {
+      setSearchActive(false);
+    }
+  }
+
   useEffect(() => {
     fetchData();
   }, [fetchData]);
@@ -231,77 +267,43 @@ const TodoList: React.FC = () => {
     <div id="page">
       <div className="active-container">
         <div className="filter-list">
-          <button
-            type="button"
-            className="filter-list_item common-button"
-            onClick={() => filterHandler("all", setFilterView)}
-          >
-            전체보기
-          </button>
-          <button
-            type="button"
-            className="filter-list_item common-button"
-            onClick={() => filterHandler("!done", setFilterView)}
-          >
-            미완료
-          </button>
-          <button
-            type="button"
-            className="filter-list_item common-button"
-            onClick={() => filterHandler("done", setFilterView)}
-          >
-            완료
-          </button>
-          <button
-            type="button"
-            className="filter-list_item common-button"
-            onClick={() => filterHandler("important", setFilterView)}
-          >
-            중요
-          </button>
+          <button type="button" className="filter-list_item common-button" onClick={() => filterHandler("all", setFilterView)}>전체보기</button>
+          <button type="button" className="filter-list_item common-button" onClick={() => filterHandler("!done", setFilterView)}>미완료</button>
+          <button type="button" className="filter-list_item common-button" onClick={() => filterHandler("done", setFilterView)}>완료</button>
+          <button type="button" className="filter-list_item common-button" onClick={() => filterHandler("important", setFilterView)}>중요</button>
         </div>
-        <button
-          type="button"
-          className="registButton common-button"
-          onClick={() => navigate("/regist")}
-        >
-          등록
-        </button>
+        <button type="button" className="registButton common-button" onClick={() => navigate("/regist")}>등록</button>
+      </div>
+      <div className="filter-list2">
+        <button type="button" className="filter-list_item common-button" onClick={sortHandler}>업데이트 순 &nbsp;{!sortState ? <FontAwesomeIcon icon={faCaretUp} /> : <FontAwesomeIcon icon={faCaretDown} />}</button>
+        <div className="inputDiv">
+          <input type="text" value={searchValue} onChange={searchHandler} />
+          <FontAwesomeIcon className="searchBtn" icon={faMagnifyingGlass} />
+        </div>
       </div>
       <div id="contents" className="todo-container">
         <div className="todo-container__controller">
-          <button
-            className="completeAll"
-            data-done="0"
-            onClick={allDoneHandler}
-          >
-            ✅ 전체완료
-          </button>
-          <button
-            className="deleteAll"
-            name="deleteAll"
-            onClick={allDeleteHandler}
-          >
-            ❌ 전체삭제
-          </button>
+          <button className="completeAll" data-done="0" onClick={allDoneHandler}>✅ 전체완료</button>
+          <button className="deleteAll" name="deleteAll" onClick={allDeleteHandler}>❌ 전체삭제</button>
         </div>
         <div className="todo-list-all">
           {/* 필터버튼 클릭후 해당 필터 데이터가 있다면 필터링 배열로 리턴 */}
-          {filterView.status ? (
-            filteredData.map((todo) => (
-              <TodoListItem
-                key={todo._id}
-                isCompleteCheck={isCompleteCheck}
-                deleteItem={deleteItem}
-                importantItem={importantItem}
-                todo={todo}
-              />
-            ))
+          {searchActive ? (
+            <>
+              {searchResults.map((todo) => (
+                <TodoListItem
+                  key={todo._id}
+                  isCompleteCheck={isCompleteCheck}
+                  deleteItem={deleteItem}
+                  importantItem={importantItem}
+                  todo={todo}
+                />
+              ))}
+            </>
           ) : (
             <>
-              {/* 중요 체크 todo */}
-              <ul className="important-list">
-                {importantTodos.map((todo) => (
+              {filterView.status ? (
+                filteredData.map((todo) => (
                   <TodoListItem
                     key={todo._id}
                     isCompleteCheck={isCompleteCheck}
@@ -309,22 +311,37 @@ const TodoList: React.FC = () => {
                     importantItem={importantItem}
                     todo={todo}
                   />
-                ))}
-              </ul>
-              {/* 일반 todo */}
-              <ul className="todolist">
-                {todos?.map((todo) => {
-                  return (
-                    <TodoListItem
-                      key={todo._id}
-                      isCompleteCheck={isCompleteCheck}
-                      deleteItem={deleteItem}
-                      importantItem={importantItem}
-                      todo={todo}
-                    />
-                  );
-                })}
-              </ul>
+                ))
+              ) : (
+                <>
+                  {/* 중요 체크 todo */}
+                  <ul className="important-list">
+                    {importantTodos.map((todo) => (
+                      <TodoListItem
+                        key={todo._id}
+                        isCompleteCheck={isCompleteCheck}
+                        deleteItem={deleteItem}
+                        importantItem={importantItem}
+                        todo={todo}
+                      />
+                    ))}
+                  </ul>
+                  {/* 일반 todo */}
+                  <ul className="todolist">
+                    {todos?.map((todo) => {
+                      return (
+                        <TodoListItem
+                          key={todo._id}
+                          isCompleteCheck={isCompleteCheck}
+                          deleteItem={deleteItem}
+                          importantItem={importantItem}
+                          todo={todo}
+                        />
+                      );
+                    })}
+                  </ul>
+                </>
+              )}
             </>
           )}
         </div>
