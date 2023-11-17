@@ -3,12 +3,12 @@ import { useNavigate } from "react-router-dom";
 
 import axios from 'axios';
 
-import BASE_URL from "../../api/BaseUrl";
-import Button from "../../layout/Button";
+import BASE_URL from "@api/BaseUrl";
+import Button from "@layout/Button";
 
 import "./TodoRegist.css";
 
-const TodoRegist: React.FC = () => {
+const TodoRegist = () => {
   const navigate = useNavigate();
   const [inputTitle, setInputTitle] = useState('');
   const [textareaContent, setTextareaContent] = useState('');

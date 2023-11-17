@@ -3,12 +3,12 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 import axios from "axios";
 
-import BASE_URL from "../../api/BaseUrl";
-import Button from "../../layout/Button";
+import BASE_URL from "@api/BaseUrl";
+import Button from "@layout/Button";
 
 import "./TodoUpdate.css";
 
-const TodoUpdate: React.FC = () => {
+const TodoUpdate = () => {
   const navigate = useNavigate();
   const location = useLocation();
 

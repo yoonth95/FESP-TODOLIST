@@ -8,7 +8,12 @@
     /*상대경로 설정*/
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["src/*"],
+      "@pages/*": ["src/pages/*"],
+      "@api/*": ["src/api/*"],
+      "@assets/*": ["src/assets/*"],
+      "@layout/*": ["src/layout/*"],
+      "@hooks/*": ["src/hooks/*"]
     },
 
     /* Javascript Support(자바스크립트관련 속성 추가)*/
